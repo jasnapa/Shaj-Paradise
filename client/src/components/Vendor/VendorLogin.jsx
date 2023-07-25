@@ -1,6 +1,10 @@
+import React from "react";
 import { Formik, useFormik } from "formik"
 import { useState } from "react";
 import resort1 from '../User/assets/resort1.jpg'
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 
 
@@ -8,7 +12,7 @@ import resort1 from '../User/assets/resort1.jpg'
 
 function VendorLogin(){
 
-
+const navigate=useNavigate()
 
 const [showPassword, setShowPassword] = useState(false);
 
@@ -28,9 +32,14 @@ const handleTogglePassword = () => {
                 console.log(values);
                 const { data } = await axios.post('/vendor/login', {...values})
                 console.log(data);
-                if (data.err || data.error) {
-                    generateError(data.message)
-                }
+               if(data.login){
+                navigate('/home')
+               }else if(data.error){
+                toast.error(data.message, {
+                    position: "top-center"
+                })
+               }
+
                
             } catch (error) {
 

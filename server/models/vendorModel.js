@@ -1,9 +1,8 @@
 import mongoose from "mongoose"
 
 const vendorSchema = new mongoose.Schema({
-
-
-    name:{
+    
+    resortName:{
         type:String,
         required:true
     },
@@ -14,7 +13,23 @@ const vendorSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true
-    }
+    },
+    mobile: {
+        type: Number,
+        required: true
+    },
+    blocked:{
+        type:Boolean,
+        default:false
+    },
+    description:{
+    type:String,
+    required:true
+   },
+   amenities:{
+    type:Array,
+    required:true
+   },
 
 
 }) 

@@ -3,7 +3,8 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import dbConnect from './config/config.js'
 import userAuthRouter from './routes/userAuthRouter.js'
-import adminRouter from './routes/adminRouter.js'
+import adminRouter from './routes/adminRouter.js' 
+import vendorRouter from './routes/vendorRouter.js'
 
 
 
@@ -34,6 +35,7 @@ app.use(express.urlencoded({extended:true}))
 
 app.use('/',userAuthRouter)
 app.use('/admin',adminRouter)
+app.use('/vendor',vendorRouter)
 
 
 

@@ -1,11 +1,11 @@
-// import express from "express";
-// import { vendorLogin } from "../controller/vendorController";
+import express from "express";
+import { vendorLogin } from "../controller/vendorController.js";
 
 
 
-// const router = express.Router()
+const router = express.Router()
 
-// router.post('/login',vendorLogin)
+router.post('/login',vendorLogin)
 
 
-// export default router
+export default router
