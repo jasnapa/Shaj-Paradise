@@ -1,14 +1,11 @@
-
-import { useNavigate, Link } from "react-router-dom";
-
-
+import React from "react";
+import { Link } from "react-router-dom";
 
 
-function Navbar() {
-
-
+export const Navbar=()=> {
   return (
-    <div className=" navbar bg-transparent shadow-xl bg-base-100">
+    <>
+    <div className="z-0 navbar shadow-xl  bg-transparent ">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -32,17 +29,17 @@ function Navbar() {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Home</a>
+              <p>Home</p>
             </li>
             <li>
-              <a>Booking</a>
+            <Link to={'/resorts'}><a > Resorts</a></Link> 
             </li>
             <li>
-              <a>History</a>
+              <p>History</p>
             </li>
           </ul>
         </div>
-        <a className="btn btn-ghost normal-case text-xl">Shaj Paradise</a>
+        <p className="btn btn-ghost normal-case text-xl">Shaj Paradise</p>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -50,7 +47,7 @@ function Navbar() {
             <a>Home</a>
           </li>
           <li>
-            <a>Booking</a>
+          <Link to={'/resorts'}><a > Resorts</a></Link> 
           </li>
           <li>
             <a>History</a>
@@ -61,8 +58,9 @@ function Navbar() {
         <Link to={'/login'}><a className="btn">Log in</a></Link> 
       </div>
     </div>
+    </>
+
   );
 }
 
 
-export default Navbar
