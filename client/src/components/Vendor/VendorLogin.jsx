@@ -33,7 +33,7 @@ const handleTogglePassword = () => {
                 const { data } = await axios.post('/vendor/login', {...values})
                 console.log(data);
                if(data.login){
-                navigate('/home')
+                navigate('/vendor/home')
                }else if(data.error){
                 toast.error(data.message, {
                     position: "top-center"
