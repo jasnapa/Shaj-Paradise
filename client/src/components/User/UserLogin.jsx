@@ -41,7 +41,7 @@ function UserLogin(){
         onSubmit: async (values) => {
             try {
                 console.log(values);
-                const { data } = await axios.post('/login', {...values})
+                const { data } = await axios.post('/user/login', {...values})
                 console.log(data);
                 if (data.err || data.error) {
                     generateError(data.message)
@@ -60,7 +60,7 @@ function UserLogin(){
                     //   })
                     // );
 
-                    navigate("/home")
+                    navigate("/")
                 }
                  
             } catch (error) {
@@ -74,6 +74,7 @@ function UserLogin(){
 
     
     return(
+        <>
          <section className="bg-gray-50 min-h-screen flex items-center justify-center">
             <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
 
@@ -123,6 +124,7 @@ function UserLogin(){
                 </div>
             </div>
         </section> 
+        </>
     )
 }
 
