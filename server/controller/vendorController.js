@@ -43,3 +43,14 @@ export async function vendorLogin(req,res){
         console.log(error);
     }
 }
+
+export async function vendorHome(req,res){
+    try {
+        const vendors=await vendorModel.find({})
+        res.json({success:true,vendors})
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
