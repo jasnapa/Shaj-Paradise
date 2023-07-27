@@ -57,7 +57,7 @@ function UserSignup(){
           console.log("onsubmit@#$32" ,values );
             try {
                
-                const { data } = await axios.post('/verify', { ...values})
+                const { data } = await axios.post('/user/verify', { ...values})
                 console.log("respomse", data);
                 
                 if (data.status) {
