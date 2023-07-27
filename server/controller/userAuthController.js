@@ -2,6 +2,7 @@ import UserModel from "../models/userModel.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { sendVerificationCode, verifyOtp } from "../helper/sendOtp.js";
+import vendorModel from "../models/vendorModel.js";
 
 
 
@@ -112,4 +113,8 @@ export async function signUp(req, res) {
 
     
 }
+
+
+
+
 
