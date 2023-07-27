@@ -17,7 +17,7 @@ function EmailVerification(){
       console.log("onsubmit");
       try {
         console.log(values, 'nsdksdk');
-        const { data } = await axios.post('/signup', { ...values })
+        const { data } = await axios.post('/user/signup', { ...values })
         console.log(data);
         if (data.status) {
           navigate("/login")
