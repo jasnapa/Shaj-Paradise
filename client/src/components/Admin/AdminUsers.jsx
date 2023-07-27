@@ -10,7 +10,6 @@ const AdminUsers = () => {
     try {
       (async function () {
         const { data } = await axios.get("/admin/users");
-        console.log(data.users);
         if (data.success) {
           setUsers(data.users);
         }
@@ -97,7 +96,8 @@ const AdminUsers = () => {
                 </thead>
 
                 <tbody>
-                  {users.map((item, index) => {
+                  {
+                  users.map((item, index) => {
                     return (
                       <tr>
                         <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
