@@ -5,6 +5,7 @@ import dbConnect from './config/config.js'
 import userAuthRouter from './routes/userAuthRouter.js'
 import adminRouter from './routes/adminRouter.js' 
 import vendorRouter from './routes/vendorRouter.js'
+import userRouter from './routes/userRouter.js'
 
 
 
@@ -33,9 +34,10 @@ app.use(express.urlencoded({extended:true}))
 
 
 
-app.use('/',userAuthRouter)
+app.use('/user',userAuthRouter)
 app.use('/admin',adminRouter)
 app.use('/vendor',vendorRouter)
+app.use('/',userRouter)
 
 
 
