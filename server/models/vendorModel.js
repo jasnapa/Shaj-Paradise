@@ -1,5 +1,12 @@
 import mongoose from "mongoose"
 
+// const imageSchema = new mongoose.Schema({
+//     url: {
+//       type: String,
+//       required: true,
+//     },
+//   });
+
 const vendorSchema = new mongoose.Schema({
     
     resortName:{
@@ -26,10 +33,10 @@ const vendorSchema = new mongoose.Schema({
     type:String,
     required:true
    },
-   amenities:{
-    type:Array,
-    required:true
-   },
+   
+   images:{
+    type:Array
+   }
 
 
 }) 

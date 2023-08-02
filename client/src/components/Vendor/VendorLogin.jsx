@@ -1,8 +1,8 @@
 import React from "react";
 import { Formik, useFormik } from "formik"
 import { useState } from "react";
-import resort1 from '../User/assets/resort1.jpg'
-import { Navigate, useNavigate } from "react-router-dom";
+import resort3 from '../User/assets/resort3.jpg'
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -33,14 +33,13 @@ const handleTogglePassword = () => {
                 const { data } = await axios.post('/vendor/login', {...values})
                 console.log(data);
                if(data.login){
-                navigate('/vendor/home')
+                localStorage.setItem('VendorJwtKey',data.token)
+                navigate('/vendor/welcome')
                }else if(data.error){
                 toast.error(data.message, {
                     position: "top-center"
                 })
                }
-
-               
             } catch (error) {
 
                 console.log(error);
@@ -72,14 +71,23 @@ const handleTogglePassword = () => {
                     </div>
                     <button className='bg-[#002D74] rounded-xl py-2 mt-2 text-white hover:scale-105 duration-300' type="submit">Login</button>
                 </form>
-                
+                <div className='mt-10 grid-cols-3 items-center text-gray-500'>
+                        <hr className=' text-gray-500' />
+                        <p className='text-center text-sm'>OR</p>
+                        <hr className=' text-gray-500' />
+                    </div>
+                    <div className='mt-3 text-xs flex justify-between items-center'>
+                        <p>Not a member yet !?</p>
+                        <Link to={'/vendor/signup'}><a className='hover:scale-105 duration-300 py-2 px-5 bg-white border rounded-xl'>Register</a></Link> 
+                    </div>
+                   
 
                 
 
             </div>
 
             <div className="w-1/2 md:block hidden">
-                <img className=' rounded-2xl' src={resort1} alt="" />
+                <img className=' rounded-2xl' src={resort3} alt="" />
             </div>
         </div>
     </section> 

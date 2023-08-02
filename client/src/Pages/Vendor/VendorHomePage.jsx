@@ -1,13 +1,8 @@
+import React from "react"
 import VendorHome from "../../components/Vendor/VendorHome"
-import React from 'react';
 
+function VendorHomePage () {
+  return <VendorHome />;
+};
 
-
-const VendorHomePage=()=> {
-    return(
-        <VendorHome />
-    )
-}
-
-
-export default VendorHomePage
+export default VendorHomePage;

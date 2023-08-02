@@ -96,9 +96,9 @@ export async function unblockUser(req,res){
     export async function addVendor(req, res) {
         try {
     
-            const { resortName, email, password, mobile, description, amenities } = req.body
+            const { resortName, email, mobile, description, password} = req.body
             const vendor = await vendorModel.findOne({ email })
-    
+            console.log(req.body);
             if (vendor) {
     
                 return res.json({
@@ -115,13 +115,12 @@ export async function unblockUser(req,res){
                 resortName,
                 email,
                 mobile,
-                password: hashedPassword,
                 description,
-                amenities: amenities.split(','),
+                password :hashedPassword
             }).then(() => {
-                sendVerificationCode(email,password,role)
                 return res.json({ status: true, message: "vendor added successfully" });
-            }).catch(() => {
+            }).catch((error) => {
+                console.log(error);
                 return res.json({ status: false, message: "vendor adding failed" });
             }) 
         }

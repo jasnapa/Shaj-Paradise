@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 
 
-function Navbar1() {
+function NavbarVendor() {
 
 
   return (
@@ -49,7 +49,7 @@ function Navbar1() {
             <a>Home</a>
           </li>
           <li>
-            <a>Packages</a>
+          <Link to={'/vendor/package'}>Packages</Link> 
           </li>
           <li>
             <a>Bookings</a>
@@ -64,4 +64,4 @@ function Navbar1() {
 }
 
 
-export default Navbar1
+export default NavbarVendor
