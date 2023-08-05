@@ -7,8 +7,7 @@ import Swal from "sweetalert2";
 
 const AdminVendor = () => {
   const [vendors, setVendors] = useState([]);
-  const[refresh,setRefresh]= useState(false)
-  
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     try {
@@ -21,7 +20,7 @@ const AdminVendor = () => {
     } catch (error) {
       console.log(error);
     }
-  },[refresh])
+  }, [reload]);
 
   async function blockVendor(values) {
     Swal.fire({
@@ -35,7 +34,7 @@ const AdminVendor = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const { data } = await axios.patch("/admin/blockVendor", { ...values });
-        setRefresh(!refresh);
+        setReload(!reload);
       }
     });
   }
@@ -54,7 +53,26 @@ const AdminVendor = () => {
         const { data } = await axios.patch("/admin/unblockVendor", {
           ...values,
         });
-        setRefresh(!refresh);
+        setReload(!reload);
+      }
+    });
+  }
+
+  async function approveVendor(values) {
+    Swal.fire({
+      title: "Are you sure? Approve",
+      text: "Approve this vendor!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#7e3af2",
+      cancelButtonColor: "##a8a8a8",
+      confirmButtonText: "Yes, Approve!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axios.patch("/admin/approveVendor", {
+          ...values,
+        });
+        setReload(!reload);
       }
     });
   }
@@ -73,9 +91,6 @@ const AdminVendor = () => {
                     Vendors
                   </h3>
                 </div>
-                <div className="relative w-full px-4 ml-80 max-w-full flex-grow flex-1 text-right">
-                  <Modal />
-                </div>
               </div>
             </div>
 
@@ -87,7 +102,7 @@ const AdminVendor = () => {
                       Id
                     </th>
                     <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle  py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Resort name
+                      Name
                     </th>
                     <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle  py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                       Email
@@ -101,7 +116,6 @@ const AdminVendor = () => {
                     <th class="px-4 bg-blueGray-50 text-blueGray-500 align-middle  py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                       Manage
                     </th>
-                   
                   </tr>
                 </thead>
 
@@ -113,7 +127,7 @@ const AdminVendor = () => {
                           {index + 1}
                         </th>
                         <td class="border-t-0 px-6  border-l-0 border-r-0 text-xs whitespace-nowrap py-3 ">
-                          {item.resortName}
+                          {item.vendorName}
                         </td>
                         <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
                           {item.email}
@@ -126,21 +140,31 @@ const AdminVendor = () => {
                           {item.blocked == true ? "Blocked" : "Active"}
                         </td>
                         <td>
-                          {item.blocked ? (
-                            <button
-                              onClick={(e) => unblockVendor(item)}
-                              type="button"
-                              class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mr-2 mb-2"
-                            >
-                              Unblock
-                            </button>
+                          {item.approve ? (
+                            item.blocked ? (
+                              <button
+                                onClick={() => unblockVendor(item)}
+                                type="button"
+                                className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mr-2 mb-2"
+                              >
+                                Unblock
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => blockVendor(item)}
+                                type="button"
+                                className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-md text-sm px-2 py-1 text-center mr-3 ml-3 mt-2 mb-2"
+                              >
+                                Block
+                              </button>
+                            )
                           ) : (
                             <button
-                              onClick={(e) => blockVendor(item)}
+                              onClick={() => approveVendor(item)}
                               type="button"
-                              class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-md text-sm px-2 py-1 text-center mr-3 ml-3 mt-2 mb-2"
+                              className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mr-2 mb-2"
                             >
-                              Block
+                              Approve
                             </button>
                           )}
                         </td>
