@@ -5,6 +5,7 @@ import UserRouter from "./Routes/UserRouter"
 import VendorRouter from "./Routes/VendorRouter";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
+import "@mapbox/search-js-react";
 import 'react-toastify/dist/ReactToastify.css';
 
 function App(){
