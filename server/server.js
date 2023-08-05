@@ -6,6 +6,7 @@ import userAuthRouter from './routes/userAuthRouter.js'
 import adminRouter from './routes/adminRouter.js' 
 import vendorRouter from './routes/vendorRouter.js'
 import userRouter from './routes/userRouter.js'
+import 'dotenv/config.js'
 
 
 
@@ -28,7 +29,7 @@ app.use(
   
 
 
-app.use(express.json())
+app.use(express.json({limit:"10mb"}))
 app.use(cookieParser());
 app.use(express.urlencoded({extended:true}))
 
