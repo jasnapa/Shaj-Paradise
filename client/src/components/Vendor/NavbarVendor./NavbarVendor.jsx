@@ -1,10 +1,26 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { authVendor, getVendor } from "../../../Services/vendorApi";
 
 
 
 
 function NavbarVendor() {
-
+  const [vendors, setResorts] = useState([]);
+  useEffect(() => {
+		try {
+		  (async function () {
+			const { data } = await getVendor()
+			console.log(data);
+			if (data.success) {
+			  setResorts(data.vendors);
+			}
+		  })();
+		} catch (error) {
+		  console.log(error);
+		}
+	  },[])
 
   return (
     <div className=" navbar shadow-xl bg-base-100">
@@ -31,10 +47,10 @@ function NavbarVendor() {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Home</a>
+            <Link to={'/vendor/home/'}>Home</Link> 
             </li>
             <li>
-              <a>Packages</a>
+            <Link to={'/vendor/resorts/'}>Resorts</Link> 
             </li>
             <li>
               <a>Bookings</a>
@@ -46,10 +62,10 @@ function NavbarVendor() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a>Home</a>
+          <Link to={'/vendor/home/'}>Home</Link> 
           </li>
           <li>
-          <Link to={'/vendor/package'}>Packages</Link> 
+          <Link to={'/vendor/resorts/'}>Resorts</Link> 
           </li>
           <li>
             <a>Bookings</a>
