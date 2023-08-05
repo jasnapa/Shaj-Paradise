@@ -7,16 +7,15 @@ import { ToastContainer, toast } from "react-toastify";
 import resort4 from "../User/assets/resort4.jpg";
 
 function VendorSignup() {
-  // const [errorMessage, setErrorMessage] = useState(false)
+ 
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
 
   const validate = Yup.object({
-    resortName: Yup.string()
+    vendorName: Yup.string()
       .max(15, "Must be 15 characters or less")
       .required("Resort Name Required"),
     email: Yup.string()
@@ -37,10 +36,9 @@ function VendorSignup() {
 
   const formik = useFormik({
     initialValues: {
-      resortName: "",
+      vendorName: "",
       email: "",
       mobile: "",
-      description: "",
       password: "",
       confirmpassword: "",
     },
@@ -49,7 +47,7 @@ function VendorSignup() {
 
     onSubmit: async (values) => {
       try {
-        const response = await axios.post("/admin/vendors/add", { ...values });
+        const response = await axios.post("/vendor/add", { ...values });
         const data = response.data;
         console.log(data);
         if (data.status) {
@@ -99,9 +97,9 @@ function VendorSignup() {
               <input
                 className="p-2 mt-8 rounded-xl border"
                 type="text"
-                name="resortName"
-                placeholder="resortName"
-                id="resortName"
+                name="vendorName"
+                placeholder="vendor Name"
+                id="vendorName"
                 onChange={(e) => {
                   handleChange(e);
                 }}
@@ -123,6 +121,7 @@ function VendorSignup() {
               {formik.touched.email && formik.errors.email ? (
                 <div className="text-red-500">{formik.errors.email}</div>
               ) : null}
+
               <input
                 className="p-2 rounded-xl border"
                 type="number"
@@ -136,23 +135,9 @@ function VendorSignup() {
               {formik.touched.mobile && formik.errors.mobile ? (
                 <div className="text-red-500"> {formik.errors.mobile} </div>
               ) : null}
-              <input
-                className="p-2 rounded-xl border"
-                type="text"
-                name="description"
-                placeholder="description"
-                id="description"
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-              {formik.touched.description && formik.errors.description ? (
-                <div className="text-red-500">
-                  {" "}
-                  {formik.errors.description}{" "}
-                </div>
-              ) : null}
-
+              <div>
+          
+              </div>
               <div className="relative">
                 <input
                   className="p-2  rounded-xl border w-full"
