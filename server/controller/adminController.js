@@ -62,6 +62,7 @@ export async function viewUsers(req,res){
 export async function blockUser(req,res){
 try {
     await UserModel.findByIdAndUpdate(req.body._id,{$set:{blocked:true}})
+    res.json({success:true})
 
 } catch (error) {
     console.log(error);
@@ -72,6 +73,7 @@ try {
 export async function unblockUser(req,res){
     try {
         await UserModel.findByIdAndUpdate(req.body._id,{$set:{blocked:false}})
+        res.json({success:true})
     
     } catch (error) {
         console.log(error);
@@ -93,48 +95,14 @@ export async function unblockUser(req,res){
 
     
 
-    export async function addVendor(req, res) {
-        try {
-    
-            const { resortName, email, password, mobile, description, amenities } = req.body
-            const vendor = await vendorModel.findOne({ email })
-    
-            if (vendor) {
-    
-                return res.json({
-                    error: true,
-                    message: " vendor already registered "
-                })
-            } else {
-
-            let hashedPassword = bcrypt.hashSync(password, salt)
-            const role='vendor'
-
-
-            const vendor = await vendorModel.create({
-                resortName,
-                email,
-                mobile,
-                password: hashedPassword,
-                description,
-                amenities: amenities.split(','),
-            }).then(() => {
-                sendVerificationCode(email,password,role)
-                return res.json({ status: true, message: "vendor added successfully" });
-            }).catch(() => {
-                return res.json({ status: false, message: "vendor adding failed" });
-            }) 
-        }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+  
 
 
     export async function blockVendor(req,res){
         try {
             await vendorModel.findByIdAndUpdate(req.body._id,{$set:{blocked:true}})
-        
+            res.json({success:true})
+
         } catch (error) {
             console.log(error);
         }
@@ -145,11 +113,25 @@ export async function unblockUser(req,res){
         export async function unblockVendor(req,res){
             try {
                 await vendorModel.findByIdAndUpdate(req.body._id,{$set:{blocked:false}})
-            
+                res.json({success:true})
+
             } catch (error) {
                 console.log(error);
             }
             }
+
+
+            export async function approveVendor(req,res){
+
+                try {
+                    await vendorModel.findByIdAndUpdate(req.body._id,{$set:{approve:true}})
+                    res.json({success:true})
+    
+                } catch (error) {
+                    console.log(error);
+                }
+                }
+
 
 
     
