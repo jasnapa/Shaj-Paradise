@@ -29,7 +29,7 @@ export const Navbar=()=> {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <p>Home</p>
+            <Link to={'/'}><a > Home</a></Link> 
             </li>
             <li>
             <Link to={'/resorts'}><a > Resorts</a></Link> 
@@ -44,7 +44,7 @@ export const Navbar=()=> {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a>Home</a>
+          <Link to={'/'}><a > Home</a></Link> 
           </li>
           <li>
           <Link to={'/resorts'}><a > Resorts</a></Link> 
