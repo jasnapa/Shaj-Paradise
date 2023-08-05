@@ -32,9 +32,12 @@ const handleTogglePassword = () => {
                 console.log(values);
                 const { data } = await axios.post('/vendor/login', {...values})
                 console.log(data);
+
                if(data.login){
+
                 localStorage.setItem('VendorJwtKey',data.token)
-                navigate('/vendor/welcome')
+                navigate('/vendor/home')
+
                }else if(data.error){
                 toast.error(data.message, {
                     position: "top-center"
@@ -61,7 +64,7 @@ const handleTogglePassword = () => {
                     <input className='p-2 mt-8 rounded-xl border' onChange={formik.handleChange} type="email" name="email" placeholder='Email' id="" required />
                     <div className="relative">
                         <input className='p-2  rounded-xl border w-full' onChange={formik.handleChange} type={showPassword ? 'text' : 'password'} name='password' placeholder='Password' required />
-                        <button onClick={handleTogglePassword}>
+                        <button onClick={handleTogglePassword} type="button">
                         <svg className="w-5 absolute top-1 right-3 translate-y-1/2 h-4 text-gray-500" ariaHidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
                             <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
                                 <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
