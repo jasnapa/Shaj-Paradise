@@ -1,19 +1,24 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
-  const [Location, setLocation] = useState([]);
+  const [Locations, setLocation] = useState([]);
   const [suggestions, setSuggest] = useState([]);
   const [value, setValue] = useState("");
   const [place, setPlace] = useState("");
+  const [showList, setShowList] = useState(false)
+  const navigate = useNavigate()
 
   const handleRetrieve = (itemLocation, place) => {
     setLocation(itemLocation);
     setPlace(place);
-
-    console.log("sjhjsd", Location);
-  };
-
+    console.log(Locations);
+    
+    navigate('/resorts', { state: { data: itemLocation } })
+    
+  }
   const handleChange = async (e) => {
+    setShowList(true)
     setValue(e.target.value);
     console.log(value);
 
@@ -43,10 +48,10 @@ const SearchBar = () => {
           className="z-30  input input-ghost font-bold absolute uppercase rounded-full w-full py-4 pl-4 text-base-100 leading-tight lg:text-sm text-xs"
           type="text"
         />
-        <ul className=" absolute  w-full mt-52 py-4  ">
-        {!place &&
+        <ul className=" absolute  w-full mt-52 py-4   " >
+        {!place && showList &&
         suggestions.map((item) => {
-          return <li onClick={()=>handleRetrieve(item.geometry.coordinates , item.place_name)} className="text-start bg-white rounded-md pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">
+          return <li  onClick={()=>handleRetrieve(item.geometry.coordinates , item.place_name)} className="text-start bg-white rounded-md pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">
               <svg
                 className="stroke-current absolute w-4 h-4 left-2 top-2"
                 xmlns="http://www.w3.org/2000/svg"
