@@ -15,9 +15,9 @@ function UserResort() {
 		try {
 		  (async function () {
 			const { data } = await axios.get("/resorts");
-			console.log(data.vendors);
+			console.log(data.resorts);
 			if (data.success) {
-			  setResorts(data.vendors);
+			  setResorts(data.resorts);
 			}
 		  })();
 		} catch (error) {
@@ -51,7 +51,7 @@ function UserResort() {
       { 
       vendors.map((item) =>{
         return(
-      <Link to ={"/userPackages/" + item._id }>
+      <Link to ={"/viewResorts/" } state={{ data: item }} >
         <div className="inline-block ml-10 mt-10">
         <div className=" card w-52 glass">
           <figure className="w-fit h-40">
@@ -59,7 +59,7 @@ function UserResort() {
           </figure>
           <div className="card-body">
             <h2 className="card-title">{item.resortName}</h2>
-            <p>{item.place}</p>
+            <p>{item.amount}</p>
             <div className="card-actions justify-end">
               {/* <button className="btn btn-primary">Learn now!</button> */}
             </div>
