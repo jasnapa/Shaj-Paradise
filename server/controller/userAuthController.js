@@ -11,7 +11,7 @@ let salt = bcrypt.genSaltSync(10);
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
     // console.log("drfdg" ,key);
-    return jwt.sign({ id }, "mysecretKey", { expiresIn: maxAge });
+    return jwt.sign({ id }, "UserJwtKey", { expiresIn: maxAge });
   };
 
 
@@ -98,13 +98,8 @@ export async function signUp(req, res) {
             } else {
     
                 const token = createToken(user._id);
-                return res.cookie("token", token, {
-                httpOnly: true,
-                secure: true,
-                maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
-                sameSite: "none",
-                }
-            ).json({ login: true, user: user._id, token })
+            
+            res.json({ login: true, user: user._id, token })
             }
     
         } catch (error) {
