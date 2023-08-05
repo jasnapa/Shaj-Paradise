@@ -20,7 +20,7 @@ const ResortView = () => {
       <div className="flex flex-col md:flex-row -mx-4">
         <div className="md:flex-1 px-4">
           <div>
-            <div className="h-64 md:h-80 rounded-lg bg-gray-100 mb-4">
+            <div className="h-64 md:h-80 mt-8  rounded-lg bg-gray-100 mb-4">
               {
 
               <div
@@ -28,7 +28,7 @@ const ResortView = () => {
                   image === 1 ? '' : 'hidden'
                 }`}
               >
-                <img src={data.resort.images[0]} alt="Image 1" />
+                <img src={data.images[0]} alt="Image 1" />
               </div>
             }
 
@@ -37,7 +37,7 @@ const ResortView = () => {
                   image === 2 ? '' : 'hidden'
                 }`}
               >
-                <img src={data.resort.images[1]} alt="Image 2" />
+                <img src={data.images[1]} alt="Image 2" />
               </div>
 
               <div
@@ -45,7 +45,7 @@ const ResortView = () => {
                   image === 3 ? '' : 'hidden'
                 }`}
               >
-                <img src={data.resort.images[2]} alt="Image 3" />
+                <img src={data.images[2]} alt="Image 3" />
               </div>
 
               <div
@@ -53,12 +53,12 @@ const ResortView = () => {
                   image === 4 ? '' : 'hidden'
                 }`}
               >
-                <img src={data.resort.images[1]} alt="Image 4" />
+                <img src={data.images[1]} alt="Image 4" />
               </div>
             </div>
 
             <div className="flex -mx-2 mb-4">
-              {data.resort.images.map((item,index) => (
+              {data.images.map((item,index) => (
                 <div key={index} className="flex-1 px-2">
                   <button
                     onClick={() => handleImageChange(index+1)}
@@ -66,7 +66,7 @@ const ResortView = () => {
                       image === index+1 ? 'ring-2 ring-indigo-300 ring-inset' : ''
                     }`}
                   >
-                    <img src={item} />
+                    <img src={item} className="h-30"/>
                   </button>
                 </div>
               ))}
@@ -75,12 +75,12 @@ const ResortView = () => {
         </div>
           <div className="md:flex-1 px-4">
             <h2 className="mb-2 leading-tight tracking-tight font-bold text-gray-800 text-2xl md:text-3xl">
-              {data.resort.resortName}
+              {data.resortName}
             </h2>
             <p className="text-gray-500 text-sm">
               {" "}
               <a href="#" className="text-indigo-600 hover:underline">
-               {data.resort.place}
+               {data.place}
               </a>
             </p>
 
@@ -98,7 +98,7 @@ const ResortView = () => {
             </div>
 
             <p className="text-gray-500">
-             {data.resort.description}
+             {data.description}
             </p>
 
             <div className="flex-col py-4 space-x-4">
@@ -137,4 +137,4 @@ const ResortView = () => {
   );
 };
 
-export default ResortView;
+export default ResortView
