@@ -1,3 +1,4 @@
+import bookingModel from "../models/bookingModel.js";
 import resortModel from "../models/resortModel.js";
 import vendorModel from "../models/vendorModel.js";
 
@@ -19,26 +20,35 @@ export async function viewResort(req,res){
 }
 
 
-// Controller function to handle resort search
-export async function search(req, res) {
-  try {
-    const { search } = req.query;
-    let query = {};
+export async function booking(req, res) {
 
-    // If search query is provided, create a case-insensitive regex to match resort names
-    if (search && search.trim() !== "") {
-      const searchRegex = new RegExp(search, "i");
-      query.resortName = searchRegex;
-    }
+try {
+    const{resort,person,checkin,checkout,}=req.body
+console.log(req.body);
+    const booking = await bookingModel.create({
+        resort,
+        user: req.userId,
+        person,
+        checkin,
+        checkout
+    }).then(()=>{
+         console.log('success');
+        res.json({ status: true, message: "Booking successfull" });
 
-    // Fetch resorts based on the search query (or all resorts if no search query provided)
-    const resorts = await vendorModel .find(query);
-    res.json({ success: true, vendors: resorts });
-  } catch (error) {
+    }).catch((error)=>{
+        console.log(error);
+        res.json({ status: false, message: "booking failed" });
+
+    })
+    
+} catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-};
+}
+}
+
+
+
+
 
 
 
