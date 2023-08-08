@@ -5,6 +5,9 @@ export const authVendor = ()=>{
     return axiosInstance("VendorJwtKey").post('/vendor/auth')
 }
 
+export const Home = ()=>{
+    return axiosInstance("VendorJwtKey").get("/vendor/home")
+}
 
 
 export const uploadImage = (images)=>{
