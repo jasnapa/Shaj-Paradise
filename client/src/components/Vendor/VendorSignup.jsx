@@ -16,7 +16,7 @@ function VendorSignup() {
 
   const validate = Yup.object({
     vendorName: Yup.string()
-      .max(15, "Must be 15 characters or less")
+      .max(35, "Must be 35 characters or less")
       .required("Resort Name Required"),
     email: Yup.string()
       .email("invalid email address")
@@ -49,7 +49,7 @@ function VendorSignup() {
       try {
         const response = await axios.post("/vendor/add", { ...values });
         const data = response.data;
-        console.log(data);
+        console.log(response);
         if (data.status) {
           toast.success(data.message, {
             position: "top-center",
@@ -104,8 +104,8 @@ function VendorSignup() {
                   handleChange(e);
                 }}
               />
-              {formik.touched.resortName && formik.errors.resortName ? (
-                <div className="text-red-500"> {formik.errors.resortName} </div>
+              {formik.touched.vendorName && formik.errors.vendorName ? (
+                <div className="text-red-500"> {formik.errors.vendorName} </div>
               ) : null}
 
               <input
