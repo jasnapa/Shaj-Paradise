@@ -3,11 +3,11 @@ import Sidebar from "./Sidebar/Sidebar";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-const AdminUsers = () => {
+function AdminUsers() {
   const [users, setUsers] = useState([]);
   const[reload ,setReload] = useState(false)
 
-  useEffect(() => {
+  useEffect(() => { 
     try {
       (
         async function () {
