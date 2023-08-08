@@ -60,11 +60,12 @@ export async function vendorLogin(req,res){
         }
         const vendorValid = bcrypt.compareSync(password, vendor.password);
 
-        if(vendorValid){
-
+        if(!vendorValid){
+            res.json({error:true,message:"wrong password"})
+        }else{
             const token = createToken(vendor._id);
 
-            res.json({login:true,token})
+            res.json({login:true,token,vendor})
         }
 
     
@@ -88,7 +89,6 @@ export async function addVendor(req, res) {
         } else {
 
         let hashedPassword = bcrypt.hashSync(password, salt)
-        const role='vendor'
 
 
         const vendor = await vendorModel.create({
@@ -110,12 +110,19 @@ export async function addVendor(req, res) {
 
 export async function vendorHome(req,res){
     try {
-        const vendors=await vendorModel.find({})
-        res.json({success:true,vendors})
 
-    } catch (error) {
-        console.log(error);
-    }
+        const id = req.vendorId
+        const resorts = await resortModel.find({vendor:id})
+        if(resorts){
+         res.json({success:true,resorts})
+         console.log(resorts); 
+        }else{
+          res.json({error:true})
+        }
+         } catch (error) {
+          console.log(error)
+         }
+      
 
 }
 
@@ -165,43 +172,37 @@ export async function uploadImage(req, res) {
 
 
   export async function addResort(req, res) {
-    try {
-
-
-
-        let files = req.body.images;
-        let images = []
-
-        for (let item of files) {
-        const result = await cloudinary.uploader.upload(item, {
-            folder: "Shaj Paradise",
-          });
-          images.push(result.secure_url)
-        } 
+        try{
+            let files = req.body.images;
+            let images = []
+            for (let item of files) {
+                const result = await cloudinary.uploader.upload(item, {
+                    folder: "Shaj Paradise",
+                  });
+                  images.push(result.secure_url)
+                } 
+                
+                const {resortName,description,amount,amenities,locations,place} = req.body
         
-        const {resortName,description,amount,amenities,locations,place} = req.body
-    
+                const vendor = await resortModel.create({
+                    resortName,
+                    description,
+                    amount,
+                    amenities: amenities.split(','),
+                    vendor: req.vendorId,
+                    images,
+                    locations,
+                    place
+                })
+                console.log(vendor)
+                res.json({ status: true, message: "Resort added successfully" });
+                
+            } catch (error) {
+                console.log(error);
+                res.json({status:false, message:"server error"})
+            }
 
-        const vendor = await resortModel.create({
-            resortName,
-            description,
-            amount,
-            amenities: amenities.split(','),
-            vendor: req.vendorId,
-            images,
-            locations,
-            place
-        }).then(()=>{
-             console.log('success');
-            res.json({ status: true, message: "package added successfully" });
-
-        })
-        
        
-        
-    } catch (error) {
-        console.log(error);
-    }
   }
   
   
