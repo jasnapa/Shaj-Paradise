@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import resort1 from './assets/resort1.jpg'
 import { toast } from "react-toastify";
 import * as Yup from 'yup';
+import {useDispatch} from 'react-redux'
+import { authUser } from "../../Services/userApi";
+import { setUserDetails } from "../../redux/Features/userSlice";
 
 
 
@@ -12,9 +15,21 @@ function UserLogin(){
     const [showPassword, setShowPassword] = useState(false);
     const [errMessage, setErrMessage] = useState("")
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+
+
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
     };
+
+    useEffect(() => {
+        authUser().then((response) => {
+            console.log(response);
+            if (response.data.status)
+             navigate('/')
+        })
+    }, [])
 
     const generateError = (err) => {
         toast.error(err, {
@@ -42,23 +57,23 @@ function UserLogin(){
             try {
                 console.log(values);
                 const { data } = await axios.post('/user/login', {...values})
-                console.log(data);
+                console.log(data.user);
                 if (data.err || data.error) {
                     generateError(data.message)
                 }
+
                 if (data.login) {
-
-
-                    // dispatch(
-                    //   setUserDetails({
-                    //     name: data.user.firstname,
-                    //     id: data.user._id,
-                    //     email: data.user.email, 
-                    //     image : data.user.picture,
-                    //     token : data.token
-
-                    //   })
-                    // );
+                    
+                    dispatch(
+                      setUserDetails({
+                        name: data.user.name,
+                        id: data._id,
+                        email: data.user.email, 
+                        mobile : data.user.mobile,
+                      })
+                    );
+                    
+                    localStorage.setItem('UserJwtKey',data.token)
 
                     navigate("/")
                 }
