@@ -1,21 +1,21 @@
-import { SearchBox } from "@mapbox/search-js-react";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { addResort } from "../../../Services/vendorApi";
-import axios from "axios";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function ModalVendor(props) {
   const [Location, setLocation] = useState([]);
   const [suggestions, setSuggest] = useState([]);
   const [value, setValue] = useState("");
   const [place, setPlace] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [selectedImages, setSelectedImages] = useState([]);
+  const refresh = props.refresh
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -23,36 +23,39 @@ function ModalVendor(props) {
 
   console.log(Location);
 
-  const handleRetrieve = (itemLocation,place) => {
-    setLocation(itemLocation)
-    setPlace(place)
-    console.log('sjhjsd',Location);
-    console.log('sjhjsd',place);
-  }; 
+  const handleRetrieve = (itemLocation, place) => {
+    setLocation(itemLocation);
+    setPlace(place);
+    console.log("sjhjsd", Location);
+  };
 
   const handleChange = async (e) => {
     setValue(e.target.value);
 
     const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(value)}.json?access_token=pk.eyJ1Ijoic2hhanBhcmFkaXNlLTEyMyIsImEiOiJjbGt3djVieXExYWRyM3BwcDB1eTQ5NjF2In0.qO4fld59j3Og7WhdT6gzHw`)
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+        value
+      )}.json?access_token=pk.eyJ1Ijoic2hhanBhcmFkaXNlLTEyMyIsImEiOiJjbGt3djVieXExYWRyM3BwcDB1eTQ5NjF2In0.qO4fld59j3Og7WhdT6gzHw`
+    );
+
     if (response.ok) {
-      const {features} = await response.json();
+      const { features } = await response.json();
       setSuggest(features);
     }
   };
 
-  // const validate = Yup.object({
-
-  //     amount: Yup.string()
-  //         .max(15, 'Must be 15 characters or less')
-  //         .required('amount Required'),
-  //     daysInfo: Yup.string()
-  //         .max(15, 'Must be 15 characters or less')
-  //         .required('First Name Required'),
-  //     amenities: Yup.string()
-  //         .max(15, 'Must be 15 characters or less')
-  //         .required('First Name Required'),
-  // });
+  const validate = Yup.object({
+    resortName: Yup.string()
+      .max(15, "Must be 15 characters or less")
+      .required("Resort Name Required"),
+    description: Yup.string()
+      .required("Description Required"),
+    amount: Yup.string()
+      .max(50, "Must be 50 characters or less")
+      .required("Amount Required"),
+    amenities: Yup.string()
+        .required("Amenities Required"),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -62,8 +65,11 @@ function ModalVendor(props) {
       amenities: "",
     },
 
+    validationSchema: validate,
+
     onSubmit: async (values) => {
       try {
+        setLoading(!loading);
         const { data } = await addResort(
           values,
           selectedImages,
@@ -71,10 +77,12 @@ function ModalVendor(props) {
           place
         );
         console.log(data);
-        if (data.status) {
+        if (data?.status) {
           toast.success(data.message, {
             position: "top-center",
           });
+          props.setRefresh(!refresh)
+          toggleModal();
           navigate("/vendor/resorts");
         } else {
           toast.error(data.message, {
@@ -178,8 +186,12 @@ function ModalVendor(props) {
                     className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     placeholder="resort Name"
                     onChange={formik.handleChange}
-                    required
                   />
+                  {formik.touched.resortName && formik.errors.resortName ? (
+                    <div className="text-red-500">
+                      {formik.errors.resortName}
+                    </div>
+                  ) : null}
                 </div>
                 <div>
                   <input
@@ -189,8 +201,13 @@ function ModalVendor(props) {
                     className="mt-5 bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     placeholder="Description"
                     onChange={formik.handleChange}
-                    required
+                    
                   />
+                  {formik.touched.description && formik.errors.description ? (
+                    <div className="text-red-500">
+                      {formik.errors.description}
+                    </div>
+                  ) : null}
                 </div>
                 <div>
                   <input
@@ -200,12 +217,39 @@ function ModalVendor(props) {
                     className="mt-5 bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     placeholder="Total amount"
                     onChange={formik.handleChange}
+                    
+                  />
+                  {formik.touched.amount && formik.errors.amount ? (
+                    <div className="text-red-500"> {formik.errors.amount} </div>
+                  ) : null}
+                </div>
+                <div>
+                  <input
+                    className="input input-bordered"
+                    onChange={handleChange}
+                    value={place ? place : value}
+                    placeholder="Select your Location"
+                    onFocus={() => setPlace("")}
                     required
                   />
-                  {/* {
-                                    formik.touched.name && formik.errors.name ? (
-                                        <div className="text-red-500"> {formik.errors.name} </div>
-                                    ) : null} */}
+                  <ul className="absolute bg-white w-56">
+                    {!place &&
+                      suggestions.map((item) => {
+                        return (
+                          <li
+                            onClick={() =>
+                              handleRetrieve(
+                                item.geometry.coordinates,
+                                item.place_name
+                              )
+                            }
+                            className="text-start cursor-pointer hover:bg-slate-100"
+                          >
+                            {item.place_name}
+                          </li>
+                        );
+                      })}
+                  </ul>
                 </div>
 
                 <div>
@@ -214,46 +258,41 @@ function ModalVendor(props) {
                     name="amenities"
                     id="amenities"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="Amenities"
+                    placeholder="amenities"
                     onChange={formik.handleChange}
-                    required
+                    
                   />
-                  {/* {formik.touched.mobile && formik.errors.mobile ? (
-                                    <div className="text-red-500"> {formik.errors.mobile} </div>
-                                ) : null} */}
+                  {formik.touched.amenities && formik.errors.amenities ? (
+                    <div className="text-red-500">
+                      {formik.errors.amenities}
+                    </div>
+                  ) : null}
                 </div>
 
-                <div>
-                  <input
-                    onChange={handleChange}
-                    value={place ? place : value}
-                    placeholder="Select your Location"
-                    onFocus={()=>setPlace('')}
-                  />
-                  <ul>
-                    {!place &&
-                      suggestions.map((item) => {
-                        return (
-                          <li onClick={()=>handleRetrieve(item.geometry.coordinates , item.place_name)} className="text-start ">
-                            {item.place_name}
-                          </li>
-                        );
-                      })}
-                  </ul>
-                </div>
+               
 
                 <input
                   type="file"
                   className="file-input file-input-ghost w-full mt-7 mb-10 max-w-xs"
                   onChange={handleFileChange}
                   multiple
+                  required
                 />
                 <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                   <button
                     type="submit"
                     className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
                   >
-                    Add
+                    {loading ? (
+                      <ClipLoader
+                        loading={loading}
+                        size={20}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    ) : (
+                      "Add"
+                    )}
                   </button>
                 </div>
               </form>
