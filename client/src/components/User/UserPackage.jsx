@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
-import { Navbar } from "./Navbar/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Navbar from "./Navbar/Navbar";
 
 function UserPackage() {
   const [packages, setPackages] = useState([]);
