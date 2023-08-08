@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { useNavigate, Link, Navigate, Outlet } from "react-router-dom";
 import { authVendor } from "../Services/vendorApi.js";
+import { authAdmin } from "../Services/adminApi.js";
 
 
 const PrivateRoutes = ({ role, route }) => { 
