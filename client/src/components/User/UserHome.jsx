@@ -1,7 +1,7 @@
 import React from "react";
 import Banner from "./Banner/Banner";
-import { Navbar } from "./Navbar/Navbar";
 import BannerTwo from "./BannerTwo/BannerTwo"
+import Navbar from "./Navbar/Navbar";
 
 const UserHome = () => {
   return (
