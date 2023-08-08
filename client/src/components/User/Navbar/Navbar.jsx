@@ -1,8 +1,35 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { authUser } from "../../../Services/userApi";
+import { setUserDetails, setUserSignout } from "../../../redux/Features/userSlice";
 
 
-export const Navbar=()=> {
+function Navbar() {
+
+const navigate = useNavigate()
+const users = useSelector((state) => state.user)
+const dispatch= useDispatch()
+console.log("kkjj",users);
+useEffect( ()=>{
+
+  if(!users.id){
+    authUser().then((response) => {
+
+      if (response.data.status) {
+        dispatch(
+          setUserDetails({
+            name: response.data.user.name,
+            id: response.data.user._id,
+            email: response.data.user.email,
+            mobile: response.data.user.mobile,
+          })
+        );
+      }
+    })
+  }
+})
+
   return (
     <>
     <div className="z-0 navbar shadow-xl  bg-transparent ">
@@ -54,9 +81,38 @@ export const Navbar=()=> {
           </li>
         </ul>
       </div>
+      {
+          users.id && users.id ?
+          <div className="navbar-end">
+            <div className="dropdown dropdown-end mr-4">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <img src="https://source.unsplash.com/100x100/?portrait" />
+                </div>
+              </label>
+              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                <li>
+                  <Link to={'/profile'}>
+                  <p className="justify-between">
+                    Profile
+                    <span className="badge">New</span>
+                  </p></Link>
+                </li>
+                <li><Link to={'/history'}><a>History</a></Link></li>
+                <li onClick={
+                  () => {
+                    localStorage.removeItem('UserJwtKey');
+                    navigate('/')
+                    dispatch(setUserSignout())  
+                  }}><a>Logout</a></li>
+              </ul>
+            </div>
+          </div>
+            :
       <div className="navbar-end">
-        <Link to={'/login'}><a className="btn">Log in</a></Link> 
+        <Link to={'/login'}><a className="btn btn-sm btn-accent text-white mr-8">Log in</a></Link> 
       </div>
+}
     </div>
     </>
 
@@ -64,3 +120,4 @@ export const Navbar=()=> {
 }
 
 
+export default Navbar
