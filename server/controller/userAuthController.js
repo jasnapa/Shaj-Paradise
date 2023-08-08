@@ -2,22 +2,21 @@ import UserModel from "../models/userModel.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { sendVerificationCode, verifyOtp } from "../helper/sendOtp.js";
-import vendorModel from "../models/vendorModel.js";
+
 
 
 
 let userDetails
 let salt = bcrypt.genSaltSync(10); 
 const maxAge = 3 * 24 * 60 * 60;
+
 const createToken = (id) => {
-    // console.log("drfdg" ,key);
     return jwt.sign({ id }, "UserJwtKey", { expiresIn: maxAge });
   };
 
 
 
-
-  export async function generateOTP(req, res) {
+export async function generateOTP(req, res) {
     try {
         console.log("verifdsijfdiohf");
         console.log(req.body, 'body');
@@ -99,7 +98,7 @@ export async function signUp(req, res) {
     
                 const token = createToken(user._id);
             
-            res.json({ login: true, user: user._id, token })
+            res.json({ login: true, user, token })
             }
     
         } catch (error) {
@@ -109,6 +108,33 @@ export async function signUp(req, res) {
     
 }
 
+
+
+export async function userAuth(req,res){
+    try {
+        const authHeader = req.headers.authorization
+        if (authHeader) {
+            const token = authHeader.split(' ')[1]
+            jwt.verify(token, process.env.USER_SECRET_KEY, async (err, decoded) => {
+                if (err) {
+                    res.json({ status: false, message: "Unauthorized" })
+                } else {
+                    const user = await UserModel.findById({_id:decoded.id})
+                    console.log(user)
+                    if(user){
+                        res.json({status:true ,user,  message:"Authorised"})
+                    }else{
+                        res.json({status:false, message:"user not found"})
+                    }
+                }
+            })
+        }else{
+            res.json({status:false , message:"User not exists"})
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 
 
