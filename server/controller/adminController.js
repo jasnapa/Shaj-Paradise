@@ -4,11 +4,19 @@ import UserModel from "../models/userModel.js";
 import vendorModel from "../models/vendorModel.js";
 import bcrypt from 'bcrypt'
 import { sendVerificationCode } from "../helper/sendOtp.js";
+import resortModel from "../models/resortModel.js";
 
 
 
 
-let salt = bcrypt.genSaltSync(10); 
+let salt = bcrypt.genSaltSync(10);
+
+const maxAge = 3 * 24 * 60 * 60;
+
+const createToken = (id) => {
+    return jwt.sign({ id }, "AdminJwtKey", { expiresIn: maxAge });
+  };
+
 
 export async function adminLogin(req,res){
     try {
@@ -26,19 +34,10 @@ export async function adminLogin(req,res){
         }
         else {
 
-            const token = jwt.sign(
-                {
-                    id: admin._id
-                },
-                'myjwtkey'
-            )
+            const token = createToken(admin._id);
+            
+            res.json({ login: true, token })
 
-            return res.cookie("token", token, {
-                httpOnly: true,
-                secure: true,
-                maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
-                sameSite: "none",
-            }).json({ err: false, admin: admin._id, token })
         }
            
     } catch (error) {
@@ -46,6 +45,34 @@ export async function adminLogin(req,res){
         console.log(error);
     }
 }
+
+
+export async function adminAuth(req,res){
+    try {
+        const authHeader = req.headers.authorization
+        if (authHeader) {
+            const token = authHeader.split(' ')[1]
+            jwt.verify(token, process.env.ADMIN_SECRET_KEY, async (err, decoded) => {
+                if (err) {
+                    res.json({ status: false, message: "Unauthorized" })
+                } else {
+                    const admin = await adminModel.findById({_id:decoded.id})
+                    console.log(admin)
+                    if(admin){
+                        res.json({status:true ,  message:"Authorised"})
+                    }else{
+                        res.json({status:false, message:"admin not found"})
+                    }
+                }
+            })
+        }else{
+            res.json({status:false , message:"admin not exists"})
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 
 export async function viewUsers(req,res){
@@ -92,6 +119,17 @@ export async function unblockUser(req,res){
             console.log(error);
         }
     }
+
+    export async function viewResort(req,res){
+        try {
+            const resort=await resortModel.find({})
+            res.json({success:true,resort})
+    
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
 
     
 
