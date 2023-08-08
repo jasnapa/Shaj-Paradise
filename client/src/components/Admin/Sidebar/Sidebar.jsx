@@ -4,7 +4,7 @@ import { useNavigate,Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const navigate = useNavigate()
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -176,10 +176,35 @@ const Sidebar = () => {
                 >
                   <path
                     fillRule="evenodd"
+                    d="M2.993 5a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0V7a2 2 0 0 0-2-2zm9 0a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0V7a2 2 0 0 0-2-2zM14 2a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0V4a2 2 0 0 0-2-2zM4.993 11a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0v-4a2 2 0 0 0-2-2zm5 0a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0v-4a2 2 0 0 0-2-2zm5 0a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0v-4a2 2 0 0 0-2-2z"
+                  />
+                </svg>
+                <span className="ml-2"><Link to={'/admin/resort'}>Resorts</Link></span>
+              </a>
+            </li>
+
+            <li onClick={
+                  () => {
+                    localStorage.removeItem('AdminJwtKey');
+                    navigate('/admin/login')
+                  }}>
+              <a
+                href="#"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <svg
+                  className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
                     d="M15.776 1.553A10 10 0 1 0 18.243 15L14 16.071l1.071-4.243A10 10 0 0 0 15.776 1.553zM10 2C5.029 2 1 6.029 1 11s4.029 9 9 9 9-4.029 9-9-4.029-9-9-9zm0 16.75A7.75 7.75 0 1 1 10 1.25v17.5z"
                   />
                 </svg>
-                <span className="ml-2">Sign out</span>
+                <span  className="ml-2">Sign out</span>
               </a>
             </li>
           </ul>
