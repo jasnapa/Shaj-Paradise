@@ -1,10 +1,12 @@
 import express from 'express'
-import { search, viewResort } from '../controller/userController.js'
+import { booking, viewResort } from '../controller/userController.js'
+import { verifyUser } from '../middleware/verifyUser.js'
 
 const router = express.Router()
 
 router.get('/resorts',viewResort)
-router.get('/search',search)
+
+router.post('/booking',verifyUser,booking)
 // router.get('/packages/:id',)
 
 
