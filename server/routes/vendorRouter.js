@@ -13,12 +13,8 @@ router.post('/uploadImage',verifyVendor,uploadImage)
 router.post('/auth',vendorAuth)
 router.post('/addResort',verifyVendor,addResort)
 router.get('/resorts',verifyVendor,vendorResorts)
-
-
- 
-
 router.get('/getVendor',verifyVendor,getVendor)
-router.get('/home',vendorHome)
+router.get('/home',verifyVendor,vendorHome)
 
 
 export default router
