@@ -1,13 +1,10 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from 'yup';
-
-
-
-
+import { authAdmin } from "../../Services/adminApi";
 
 
 
@@ -18,6 +15,14 @@ const AdminLogin = ()=>{
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
     };
+  
+    useEffect(() => {
+        authAdmin().then((response) => {
+            console.log(response);
+            if (response.data.status)
+             navigate('/admin/dashboard')
+        })
+    }, [])
 
     const validate = Yup.object({
         email: Yup.string()
@@ -46,6 +51,7 @@ const AdminLogin = ()=>{
         
                     })
                 } else {
+                    localStorage.setItem('AdminJwtKey',data.token)
                     navigate("/admin/dashboard")
                 }
             } catch (error) {
