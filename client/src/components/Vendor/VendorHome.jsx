@@ -1,52 +1,43 @@
-import React from 'react';
+import React from "react";
 import { useEffect, useState } from "react";
-import axios from 'axios';
-import NavbarVendor from './NavbarVendor./NavbarVendor';
-import { getVendor } from '../../Services/vendorApi';
+import NavbarVendor from "./NavbarVendor./NavbarVendor";
+import { Home } from "../../Services/vendorApi";
 
+function VendorHome() {
+  const [resorts, setResort] = useState([]);
 
-function VendorHome (){
+  useEffect(() => {
+    try {
+      (async function () {
+        const { data } = await Home();
+        if (data.success) {
+          setResort(data.resorts);
+          console.log(resorts);
+        }
+      })();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
-	const [vendors, setVendors] = useState([]);
-
-	useEffect(() => {
-		try {
-		  (async function () {
-			const { data } = await getVendor()
-			if (data.success) {
-			  setVendors(data.vendor);
-			}
-		  })();
-		} catch (error) {
-		  console.log(error);
-		}
-	  },[])
   return (
-  <>
-    <NavbarVendor />
-	{/* <ModalVendor /> */}
-    <section className="p-6 text-gray-100">
-	<div className="container grid gap-6 mx-auto text-center lg:grid-cols-2 xl:grid-cols-5">
-		<div className="w-full card glass flex flex-col justify-center items-center px-6 py-16 rounded-md sm:px-12 md:px-16 xl:col-span-2 bg-gray-900">
-			<span className="block mb-2 text-violet-400"></span>
-			<h1 className="text-5xl font-extrabold text-gray-50">{vendors.resortName}</h1>
-			<p className="my-8">
-				<span className="font-medium text-gray-50">{vendors.description}</span>
-			</p>
-		</div>
-		{vendors.images && vendors.images[0] ? (
-            <img
-              src={vendors.images[0]}
-              alt=""
-              className="object-cover w-full rounded-md xl:col-span-3 bg-gray-500"
-            />
-          ) : (
-            <p>Loading images...</p>
-          )}
-	</div>
-</section>
-</>
+    <>
+      <NavbarVendor />
+      {/* <ModalVendor /> */}
+      
+			<div className="carousel max-h-screen rounded-box">
+      {resorts.map((item, index) => {
+        return (
+			<div className="carousel-item w-full">
+			  <img src={item.images[0]} className="w-full" alt="Burger" />
+     
+			</div>
+         );
+        })}
+          </div>
+     
+    </>
   );
-};
+}
 
-export default VendorHome
+export default VendorHome;
