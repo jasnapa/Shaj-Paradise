@@ -8,6 +8,7 @@ import { viewResorts } from "../../Services/vendorApi";
 
 function VendorResorts() {
   const [resorts, setResort] = useState([]);
+  const [refresh,setRefresh] = useState(false)
 
   useEffect(() => {
     try {
@@ -21,20 +22,20 @@ function VendorResorts() {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [refresh]);
 
   return (
     <>
       <NavbarVendor />
       <div className="mt-8">
-        <ModalVendor />
+        <ModalVendor refresh ={refresh} setRefresh={setRefresh}/>
       </div>
       {resorts.map((item, index) => {
         return (
-          <div key={index} className="inline-block shadow-xl ml-16 mt-10">
-            <div className=" card w-52 shadow-xl">
+          <div key={index} className="inline-block shadow-xl  ml-16 mt-10">
+            <div className=" card w-52  shadow-xl">
               <figure className="w-fit h-40">
-                <img src={item.images[0]} alt="car!" />
+                <img src={item.images[0]} alt="car!" className="h-full" />
               </figure>
               <div className="card-body">
                 <h2 className="card-title">{item.resortName}</h2>
