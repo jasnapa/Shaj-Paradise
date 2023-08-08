@@ -19,6 +19,9 @@ function UserRouter(){
         <Routes>
 
             {/* <Route element = {<PrivateRoutes role={'user'} route={'/login'}/>}> 
+
+
+            
             </Route> */}
 
             <Route path="/login" element={<UserLoginPage/>}/>
