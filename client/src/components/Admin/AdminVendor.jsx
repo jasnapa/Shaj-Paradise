@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar/Sidebar";
 import Modal from "./Modal/Modal";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const AdminVendor = () => {
   const [vendors, setVendors] = useState([]);
@@ -76,6 +77,9 @@ const AdminVendor = () => {
       }
     });
   }
+
+  
+
 
   return (
     <>
@@ -168,6 +172,19 @@ const AdminVendor = () => {
                             </button>
                           )}
                         </td>
+                        <td>
+                       <Link to={"/admin/viewVendor/"}
+                state={{ data: item }}>
+                        <button
+                              type="button"
+                              className="text-white bg-gradient-to-r bg-blue-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mr-2 mb-2"
+                            >
+                              View
+                            </button>
+                            </Link>
+                          
+                        </td>
+
                       </tr>
                     );
                   })}
