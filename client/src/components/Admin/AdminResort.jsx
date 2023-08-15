@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar/Sidebar";
+import Swal from "sweetalert2";
 
 const AdminResort = () => {
   const [resort, setResort] = useState([]);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     try {
@@ -16,7 +18,26 @@ const AdminResort = () => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [reload]);
+
+  async function verifyResort(values) {
+    Swal.fire({
+      title: "Are you sure? Verify",
+      text: "Approve this resort!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#7e3af2",
+      cancelButtonColor: "##a8a8a8",
+      confirmButtonText: "Yes, Verify!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axios.patch("/admin/verifyResort", {
+          ...values,
+        });
+        setReload(!reload);
+      }
+    });
+  }
 
   return (
     <>
@@ -54,6 +75,9 @@ const AdminResort = () => {
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle  py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                       Place
                     </th>
+                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle  py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                      Manage
+                    </th>
                   </tr>
                 </thead>
 
@@ -67,16 +91,43 @@ const AdminResort = () => {
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
                           {item.resortName}
                         </td>
-                        <td ><p className="w-56 overflow-hidden text-ellipsis whitespace-nowrap border-t-0 px-6 align-center border-l-0 border-r-0 text-xs p-4">
-                          {item.description} </p>
+                        <td>
+                          <p className="w-56 overflow-hidden text-ellipsis whitespace-nowrap border-t-0 px-6 align-center border-l-0 border-r-0 text-xs p-4">
+                            {item.description}{" "}
+                          </p>
                         </td>
                         <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                           {item.amenities}
                         </td>
-                        <td><p className="w-32 overflow-hidden text-ellipsis whitespace-nowrap border-t-0 px-6 align-center border-l-0 border-r-0 text-xs p-4">
-                          {item.place} </p>
+                        <td>
+                          <p className="w-32 overflow-hidden text-ellipsis whitespace-nowrap border-t-0 px-6 align-center border-l-0 border-r-0 text-xs p-4">
+                            {item.place}{" "}
+                          </p>
                         </td>
-                       
+                        <td>
+                          { item.verify ?(
+                             <button
+                           
+                             type="button"
+                             className="ml-6 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mr-2 mb-2 "
+                           >
+                             Verified
+                           </button>
+
+                          ):(
+                            <button
+                            onClick={() => verifyResort(item)}
+                            type="button"
+                            className="ml-6 text-white bg-gradient-to-r bg-red-500 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mr-2 mb-2 "
+                          >
+                            Verify
+                          </button>
+
+                          )
+                           
+                          }
+                        
+                        </td>
                       </tr>
                     );
                   })}
