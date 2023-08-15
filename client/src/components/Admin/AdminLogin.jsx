@@ -9,12 +9,8 @@ import { authAdmin } from "../../Services/adminApi";
 
 
 const AdminLogin = ()=>{
-    const [errMessage, setErrMessage] = useState("")
     const navigate = useNavigate()
-    const [showPassword, setShowPassword] = useState(false);
-    const handleTogglePassword = () => {
-        setShowPassword(!showPassword);
-    };
+
   
     useEffect(() => {
         authAdmin().then((response) => {
