@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import resort1 from "../User/assets/resort111.jpg";
 import { bookingHistory } from "../../Services/userApi";
 import Navbar from "./Navbar/Navbar";
+import ResortBanner from "./ResortBanner/ResortBanner";
 
-const Booking = () => {
+function Booking() {
   const [booking, setBooking] = useState([]);
 
   useEffect(() => {
     try {
       (async function () {
-        const { data } = await bookingHistory();
+        const { data } = await bookingHistory()
         console.log(data);
         if (data.success) {
           setBooking(data.booking);
@@ -22,26 +22,30 @@ const Booking = () => {
 
   return (
     <>
-    <Navbar />
-      {booking.map((item, index) => (
-        <div className="mb-10">
-        <div className="card w-3/4 h-40 mb-5 lg:card-side bg-base-100 shadow-xl">
-          <figure className=" w-52">
-            <img className="h-full" src={item.resort.images[0]} alt="Album" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">{item.resort.resortName}</h2>
-            <p>{item.resort.description}</p>
-            <p>{item.date}</p>
-            <div className="flex h-fi justify-end items-center">
-              <button className="btn btn-primary">{item.resort.amount}</button>
+      <Navbar />
+      <ResortBanner place={"Bookings"} />
+      {booking &&
+      booking.map((item, index) => (
+        <div className="flex justify-center mb-8 mt-8">
+          <div className="card lg:w-3/4 lg:h-48 mb-5 lg:card-side bg-base-100 shadow-xl">
+            <figure>
+              <img className="h-full w-52 " src={item?.resort.images[0]} alt="Album" />
+            </figure>
+            <div className="card-body">
+              <p className="card-title">{item?.resort.resortName}</p>
+              <p className="max-h-6 overflow-hidden text-ellipsis">{item?.resort.description}</p>
+              <p>Check in : {item?.checkin}  Check Out : {item?.checkout}</p> 
             </div>
+            <div className="flex justify-center pr-8 items-center">
+                <span className="text-xl font-mono italic font-semibold">
+                  Rs.{item?.resort.amount}
+                </span>
+              </div>
           </div>
-        </div>
         </div>
       ))}
     </>
   );
-};
+}
 
 export default Booking;
