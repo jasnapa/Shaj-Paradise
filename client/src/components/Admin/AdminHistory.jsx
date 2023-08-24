@@ -88,10 +88,10 @@ const[history,setHistory] = useState([])
                           {item.resort.amount}
                         </td>
                         <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                          {item.checkin}
+                          {new Date(item.checkin).toLocaleDateString()}
                         </td>
                         <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                          {item.checkout}
+                          {new Date(item.checkout).toLocaleDateString()}
                         </td>
                       </tr>
                     );
