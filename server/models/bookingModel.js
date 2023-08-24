@@ -12,6 +12,14 @@ const BookingSchema = new mongoose.Schema({
         ref : 'users' ,
         required : true
       }, 
+    orderId: {
+        type: String,
+    },
+    vendor:{
+        type : mongoose.Schema.Types.ObjectId ,
+        ref : 'vendorDB' ,
+        required : true
+      }, 
 
     date: {
         type: Date,
@@ -22,11 +30,11 @@ const BookingSchema = new mongoose.Schema({
         required: true
     },
     checkin: {
-        type: String,
+        type: Date,
         required: true
     },
    checkout: {
-        type: String,
+        type: Date,
         required: true
     },
     paymentMethod:{

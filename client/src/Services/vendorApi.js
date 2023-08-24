@@ -26,3 +26,15 @@ export const viewResorts = ()=>{
     return axiosInstance("VendorJwtKey").get("/vendor/resorts")
 }
 
+export const editProfile = (values)=>{
+    return axiosInstance("VendorJwtKey").patch('/vendor/editProfile',{...values})   
+}
+
+
+export const vendorBooking = ()=>{
+    return axiosInstance("VendorJwtKey").get("/vendor/vendorBooking")
+}
+
+export const editResort = ( values,images,locations,place,_id)=>{
+    return axiosInstance("VendorJwtKey").patch("/vendor/editResort",{...values,images,locations,place,_id})
+}

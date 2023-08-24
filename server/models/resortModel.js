@@ -15,6 +15,10 @@ const ResortSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    capacity: {
+        type: String,
+        required: true
+    },
     images: {
         type: Array,
     },
@@ -34,7 +38,10 @@ const ResortSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    
+    verify:{
+        type:Boolean,
+        default:false
+    }
  
    
 })

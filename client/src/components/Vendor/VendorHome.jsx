@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import NavbarVendor from "./NavbarVendor./NavbarVendor";
 import { Home } from "../../Services/vendorApi";
+import NavbarVendor from "./NavbarVendor./NavbarVendor";
 
 function VendorHome() {
   const [resorts, setResort] = useState([]);
@@ -22,9 +22,7 @@ function VendorHome() {
 
   return (
     <>
-      <NavbarVendor />
-      {/* <ModalVendor /> */}
-      
+      <NavbarVendor />   
 			<div className="carousel max-h-screen rounded-box">
       {resorts.map((item, index) => {
         return (

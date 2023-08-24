@@ -10,7 +10,6 @@ export async function verifyVendor(req, res, next) {
 
         if (authHeader) {
             const token = authHeader.split(' ')[1]
-            console.log(process.env.VENDOR_SECRET_KEY)
             jwt.verify(token, process.env.VENDOR_SECRET_KEY, async (err, decoded) => {
 
                 if (err) {

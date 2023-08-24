@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import { addResort } from "../../../Services/vendorApi";
+import { addResort, editResort } from "../../../Services/vendorApi";
 import ClipLoader from "react-spinners/ClipLoader";
 
-function ModalVendor(props) {
+
+function EditModal(props) {
   const [Location, setLocation] = useState([]);
   const [suggestions, setSuggest] = useState([]);
   const [value, setValue] = useState("");
@@ -15,13 +16,13 @@ function ModalVendor(props) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [selectedImages, setSelectedImages] = useState([]);
-  const refresh = props.refresh
-  const editMode=props.editMode
+  const refresh = props.refresh;
+  const editMode = props.editMode;
+  const resort = props.resort;
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
-
 
   const handleRetrieve = (itemLocation, place) => {
     setLocation(itemLocation);
@@ -47,24 +48,24 @@ function ModalVendor(props) {
     resortName: Yup.string()
       .max(15, "Must be 15 characters or less")
       .required("Resort Name Required"),
-    description: Yup.string()
-      .required("Description Required"),
-      capacity: Yup.string()
-      .required("Capacity Required"),
+    description: Yup.string().required("Description Required"),
+    capacity: Yup.string().required("Capacity Required"),
     amount: Yup.string()
       .max(50, "Must be 50 characters or less")
-      .required("Amount Required"), 
-    amenities: Yup.string()
-        .required("Amenities Required"),
+      .required("Amount Required"),
   });
 
+  
+  
   const formik = useFormik({
     initialValues: {
-      resortName: "",
-      description: "",
-      capacity: "",
-      amount: "",
-      amenities: "",
+      resortName: resort.resortName,
+      description: resort.description,
+      capacity: resort.capacity,
+      place: resort.place,
+      amount: resort.amount,
+      amenities: resort.amenities,
+      Images: resort.images || [],
     },
 
     validationSchema: validate,
@@ -72,19 +73,25 @@ function ModalVendor(props) {
     onSubmit: async (values) => {
       try {
         setLoading(true);
-        const { data } = await addResort(
+
+        const finalLocation = value ? Location : resort.locations;
+        const finalPlace = formik.values.place ?  formik.values.place : place;
+        // const finalImages = formik.values.Images ?  formik.values.Images : selectedImages;
+        
+        const { data } = await editResort(
           values,
           selectedImages,
-          Location,
-          place
+          finalLocation,
+          finalPlace,
+          resort._id
         );
         console.log(data);
-        if (data?.status) {
-          setLoading(false)
+        if (data?.success) {
+          setLoading(false);
           toast.success(data.message, {
             position: "top-center",
           });
-          props.setRefresh(!refresh)
+          props.setRefresh(!refresh);
           toggleModal();
           navigate("/vendor/resorts");
         } else {
@@ -135,7 +142,6 @@ function ModalVendor(props) {
 
   return (
     <>
-  
       <button
         data-modal-target="authentication-modal"
         data-modal-toggle="authentication-modal"
@@ -143,17 +149,17 @@ function ModalVendor(props) {
         type="button"
         onClick={toggleModal}
       >
-        Add New
+        Edit
       </button>
-       
+
       {isOpen && (
         <div
           id="authentication-modal"
           tabIndex="-1"
           aria-hidden="true"
-          className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full"
+          className="  z-50 flex card align-middle items-start justify-center h-fit"
         >
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="absolute card  self-center mb-10 bg-white rounded-lg shadow dark:bg-gray-700">
             <button
               type="button"
               className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -179,7 +185,7 @@ function ModalVendor(props) {
             </button>
             <div className="px-8 py-6 text-center lg:px-8">
               <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-                Add Resort
+                Edit Resort
               </h3>
               <form onSubmit={formik.handleSubmit} className="px-8 space-y-6">
                 <div>
@@ -188,7 +194,7 @@ function ModalVendor(props) {
                     name="resortName"
                     id="resortName"
                     className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="resort Name"
+                    value={formik.values.resortName}
                     onChange={formik.handleChange}
                   />
                   {formik.touched.resortName && formik.errors.resortName ? (
@@ -203,9 +209,8 @@ function ModalVendor(props) {
                     name="description"
                     id="description"
                     className="mt-5 bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="Description"
+                    value={formik.values.description}
                     onChange={formik.handleChange}
-                    
                   />
                   {formik.touched.description && formik.errors.description ? (
                     <div className="text-red-500">
@@ -219,14 +224,11 @@ function ModalVendor(props) {
                     name="capacity"
                     id="capacity"
                     className="mt-5 bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="Capacity"
+                    value={formik.values.capacity}
                     onChange={formik.handleChange}
-                    
                   />
                   {formik.touched.capacity && formik.errors.capacity ? (
-                    <div className="text-red-500">
-                      {formik.errors.capacity}
-                    </div>
+                    <div className="text-red-500">{formik.errors.capacity}</div>
                   ) : null}
                 </div>
                 <div>
@@ -235,9 +237,8 @@ function ModalVendor(props) {
                     name="amount"
                     id="amount"
                     className="mt-5 bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="Total amount"
+                    value={formik.values.amount}
                     onChange={formik.handleChange}
-                    
                   />
                   {formik.touched.amount && formik.errors.amount ? (
                     <div className="text-red-500"> {formik.errors.amount} </div>
@@ -247,8 +248,7 @@ function ModalVendor(props) {
                   <input
                     className="input input-bordered"
                     onChange={handleChange}
-                    value={place ? place : value}
-                    placeholder="Select your Location"
+                    value={value || formik.values.place}
                     onFocus={() => setPlace("")}
                     required
                   />
@@ -278,9 +278,8 @@ function ModalVendor(props) {
                     name="amenities"
                     id="amenities"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="amenities"
+                    value={formik.values.amenities}
                     onChange={formik.handleChange}
-                    
                   />
                   {formik.touched.amenities && formik.errors.amenities ? (
                     <div className="text-red-500">
@@ -289,15 +288,22 @@ function ModalVendor(props) {
                   ) : null}
                 </div>
 
-               
-
                 <input
                   type="file"
                   className="file-input file-input-ghost w-full mt-7 mb-10 max-w-xs"
                   onChange={handleFileChange}
                   multiple
-                  required
-                />
+                  
+                /><div className="flex justify-between">
+                {formik.values.Images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`Selected ${index}`}
+                    className="selected-image h-20 w-20"
+                  />
+                ))}</div>
+
                 <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                   <button
                     type="submit"
@@ -311,7 +317,7 @@ function ModalVendor(props) {
                         data-testid="loader"
                       />
                     ) : (
-                      "Add"
+                      "Edit"
                     )}
                   </button>
                 </div>
@@ -320,12 +326,8 @@ function ModalVendor(props) {
           </div>
         </div>
       )}
-    
-
-     
     </>
   );
 }
 
-
-export default ModalVendor;
+export default EditModal;

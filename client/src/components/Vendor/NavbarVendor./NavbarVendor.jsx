@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 
-function NavbarVendor() {
+function NavbarVendor({refresh}) {
 
 const navigate = useNavigate()
 const vendor = useSelector((state) => state.vendor)
@@ -16,7 +16,7 @@ const dispatch= useDispatch()
 console.log("kkjj",vendor);
 
 useEffect( ()=>{
-  if(!vendor.id){
+  if(!vendor.id ||refresh || !refresh){
     authVendor().then((response) => {
       console.log(response.data);
       if (response.data.status) {
@@ -31,7 +31,7 @@ useEffect( ()=>{
       }
     })
   }
-})
+},[refresh])
 
   return (
     <>
@@ -65,11 +65,12 @@ useEffect( ()=>{
             <Link to={'/vendor/resorts/'}>Resorts</Link> 
             </li>
             <li>
-              <a>Bookings</a>
-            </li>
+          <Link to={'/vendor/vendorHistory/'}>Bookings</Link> 
+          </li>           
           </ul>
         </div>
-        <a className="btn btn-ghost normal-case text-xl">Shaj Paradise</a>
+        <Link to={'/vendor/home/'}>
+        <a className="btn btn-ghost normal-case text-xl">Shaj Paradise</a></Link> 
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -80,7 +81,7 @@ useEffect( ()=>{
           <Link to={'/vendor/resorts/'}>Resorts</Link> 
           </li>
           <li>
-            <a>Bookings</a>
+          <Link to={'/vendor/vendorHistory/'}>Bookings</Link> 
           </li>
         </ul>
       </div>
@@ -95,13 +96,13 @@ useEffect( ()=>{
               </label>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                 <li>
-                  <Link to={'/profile'}>
+                  <Link to={'/vendor/vendorProfile'}>
                   <p className="justify-between">
                     Profile
                     <span className="badge">New</span>
                   </p></Link>
                 </li>
-                <li><Link to={'/history'}><a>History</a></Link></li>
+                <li><Link to={'/vendor/vendorHistory/'}><a>History</a></Link></li>
                 <li onClick={
                   () => {
                     localStorage.removeItem('VendorJwtKey');

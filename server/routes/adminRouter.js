@@ -1,5 +1,6 @@
 import express from "express";
-import { adminAuth, adminLogin, approveVendor, blockUser, blockVendor, unblockUser, unblockVendor, viewResort, viewUsers, viewVendors } from "../controller/adminController.js";
+import { adminAuth, adminHistory, adminLogin, approveVendor, blockUser, blockVendor, unblockUser, unblockVendor, verifyResort, viewResort, viewUsers, viewVendorDetails, viewVendors } from "../controller/adminController.js";
+import { verifyUser } from "../middleware/verifyUser.js";
 
 
 
@@ -14,12 +15,15 @@ router.get('/auth',adminAuth)
 router.get('/users',viewUsers)
 router.get('/vendors',viewVendors)
 router.get('/resort',viewResort)
+router.post('/viewVendors',viewVendorDetails)
+router.get('/adminHistory',adminHistory)
 
 router.patch('/blockUser',blockUser)
 router.patch('/unblockUser',unblockUser)
 router.patch('/blockVendor',blockVendor)
 router.patch('/unblockVendor',unblockVendor)
 router.patch('/approveVendor',approveVendor)
+router.patch('/verifyResort',verifyResort)
 
 
 

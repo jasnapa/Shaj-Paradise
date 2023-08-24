@@ -5,17 +5,16 @@ import { authUser } from "../../../Services/userApi";
 import { setUserDetails, setUserSignout } from "../../../redux/Features/userSlice";
 
 
-function Navbar() {
+function Navbar({refresh,edit}) {
 
 const navigate = useNavigate()
 const users = useSelector((state) => state.user)
 const dispatch= useDispatch()
-console.log("kkjj",users);
+
 useEffect( ()=>{
-
-  if(!users.id){
-    authUser().then((response) => {
-
+  (async function () {
+  if(!users.id || refresh || !refresh){
+    await authUser().then((response) => {
       if (response.data.status) {
         dispatch(
           setUserDetails({
@@ -28,11 +27,13 @@ useEffect( ()=>{
       }
     })
   }
-})
+})();
+
+},[refresh,edit])
 
   return (
     <>
-    <div className="z-0 navbar shadow-xl  bg-transparent ">
+    <div className="navbar shadow-xl absolute z-30 bg-transparent ">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -53,7 +54,7 @@ useEffect( ()=>{
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-sm text-white dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
             <Link to={'/'}><a > Home</a></Link> 
@@ -62,14 +63,15 @@ useEffect( ()=>{
             <Link to={'/resorts'}><a > Resorts</a></Link> 
             </li>
             <li>
-              <p>History</p>
+              <p>Orders</p>
             </li>
           </ul>
         </div>
-        <p className="btn btn-ghost normal-case text-xl">Shaj Paradise</p>
+        <Link to={'/'}>
+        <p className="btn btn-ghost normal-case text-xl text-green-500">Shaj Paradise</p></Link> 
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu text-green-800 font-bold menu-horizontal px-1">
           <li>
           <Link to={'/'}><a > Home</a></Link> 
           </li>
@@ -77,7 +79,7 @@ useEffect( ()=>{
           <Link to={'/resorts'}><a > Resorts</a></Link> 
           </li>
           <li>
-            <a>History</a>
+          <Link to={'/booking'}><a>Orders</a></Link> 
           </li>
         </ul>
       </div>
@@ -98,7 +100,7 @@ useEffect( ()=>{
                     <span className="badge">New</span>
                   </p></Link>
                 </li>
-                <li><Link to={'/history'}><a>History</a></Link></li>
+                <li><Link to={'/booking'}><a>Orders</a></Link></li>
                 <li onClick={
                   () => {
                     localStorage.removeItem('UserJwtKey');
@@ -110,7 +112,7 @@ useEffect( ()=>{
           </div>
             :
       <div className="navbar-end">
-        <Link to={'/login'}><a className="btn btn-sm btn-accent text-white mr-8">Log in</a></Link> 
+        <Link to={'/login'}><a className="btn btn-sm bg-green-800 text-white mr-8">Log in</a></Link> 
       </div>
 }
     </div>

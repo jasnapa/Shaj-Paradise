@@ -88,12 +88,15 @@ export async function signUp(req, res) {
             const user = await UserModel.findOne({ email })
             console.log(user);
             if (!user) {
-                res.json({ error: true, message: 'User not registered' })
+               return res.json({ error: true, message: 'User not registered' })
             }
+             if(user.blocked){
+               return res.json({error:true,message:"you are blocked"})
+           }
             const userValid = bcrypt.compareSync(password, user.password);
     
             if (!userValid) {
-                return res.json({ err: true, message: "wrong Password" })
+                return res.json({ error: true, message: "wrong Password" })
             } else {
     
                 const token = createToken(user._id);

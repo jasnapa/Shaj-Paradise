@@ -1,4 +1,5 @@
-import UserLogin from "../../components/User/UserLogin";
+import UserLogin from "../../components/User/UserLogin"
+
 
 
 
@@ -8,6 +9,4 @@ const UserLoginPage=()=> {
         <UserLogin />
     )
 }
-
-
 export default UserLoginPage

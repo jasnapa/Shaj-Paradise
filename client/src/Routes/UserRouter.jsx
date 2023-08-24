@@ -7,6 +7,10 @@ import UserResortPage from "../Pages/User/UserResortPage";
 import HomePage from "../Pages/User/HomePage";
 import ResortViewPage from "../Pages/User/ResortViewPage";
 import UserPackagePage from "../Pages/User/UserPackagePage";
+import UserBookingPage from "../Pages/User/UserBooking";
+import SuccessPage from "../Pages/User/SuccessPage";
+import BookingPage from "../Pages/User/BookingPage";
+import UserProfilePage from "../Pages/User/UserProfile";
 
 
 
@@ -31,6 +35,10 @@ function UserRouter(){
             <Route path="/resorts" element={<UserResortPage />}/>
             <Route path="/viewResorts" element={<ResortViewPage />}/>
             <Route path="/userPackages/:id" element={<UserPackagePage />}/>
+            <Route path="/userBooking" element={<UserBookingPage />}/>
+            <Route path="/booking" element={<BookingPage />}/>
+            <Route path="/success" element={<SuccessPage/>}/>
+            <Route path="/profile" element={<UserProfilePage />}/>
         </Routes>
     )
 }
