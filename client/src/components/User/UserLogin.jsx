@@ -39,11 +39,11 @@ function UserLogin() {
     password: Yup.string().required("Password is required"),
   });
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
+    const formik = useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+      },
 
     validationSchema: validate,
 
