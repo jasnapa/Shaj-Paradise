@@ -34,10 +34,14 @@ function Booking() {
             <div className="card-body">
               <p className="card-title">{item?.resort.resortName}</p>
               <p className="max-h-6 overflow-hidden text-ellipsis">{item?.resort.description}</p>
-              <p>Check in : {item?.checkin}  Check Out : {item?.checkout}</p> 
+              <div className="flex">
+              <p className="text-green-500 font-semibold">Check in : {new Date(item?.checkin).toLocaleDateString()} </p> 
+              <p className="text-red-600 font-semibold">Check Out : { new Date(item?.checkout).toLocaleDateString()}</p> 
+              </div>
+              <p className="badge badge-success text-white">{item?.paymentMethod}</p>       
             </div>
             <div className="flex justify-center pr-8 items-center">
-                <span className="text-xl font-mono italic font-semibold">
+                <span className="text-xl font-mono italic font-semibold text-success">
                   Rs.{item?.resort.amount}
                 </span>
               </div>
