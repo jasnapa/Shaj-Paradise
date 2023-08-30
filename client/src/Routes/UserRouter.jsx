@@ -11,6 +11,7 @@ import UserBookingPage from "../Pages/User/UserBooking";
 import SuccessPage from "../Pages/User/SuccessPage";
 import BookingPage from "../Pages/User/BookingPage";
 import UserProfilePage from "../Pages/User/UserProfile";
+import UserChatPage from "../Pages/User/UserChatPage";
 
 
 
@@ -39,6 +40,7 @@ function UserRouter(){
             <Route path="/booking" element={<BookingPage />}/>
             <Route path="/success" element={<SuccessPage/>}/>
             <Route path="/profile" element={<UserProfilePage />}/>
+            <Route path="/chat" element={<UserChatPage/>}/>
         </Routes>
     )
 }
