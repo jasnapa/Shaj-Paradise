@@ -59,12 +59,13 @@ function UserSignup(){
                
                 const { data } = await axios.post('/user/verify', { ...values})
                 console.log("respomse", data);
+                const email=formik.values.email
                 
                 if (data.status) {
                     toast.success(data.message, {
                         position: "top-center"
                     })
-                    navigate("/verifyMail")
+                    navigate("/verifyMail",{state:{email}})
 
                 } else {
                     toast.error(data.message, {
@@ -81,6 +82,8 @@ function UserSignup(){
             }
         }
     })
+
+  
 
     const handleChange = (event) => {
         formik.setValues((prev) => {
