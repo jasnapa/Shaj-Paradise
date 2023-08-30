@@ -12,7 +12,8 @@ function Booking() {
         const { data } = await bookingHistory()
         console.log(data);
         if (data.success) {
-          setBooking(data.booking);
+          setBooking(data.booking);     
+          // setBooking(data.booking.reverse());
         }
       })();
     } catch (error) {
