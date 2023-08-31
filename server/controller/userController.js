@@ -218,3 +218,18 @@ export async function saveProfile(req,res){
   }
 }
 
+
+
+export async function getBookedDates(req,res){
+  try {
+    console.log("lkjhgfds",req.body);
+    const {resort}=req.body
+    const bookedDates = await bookingModel.find({
+      resort: resort
+    },{checkin:1,checkout:1})
+    console.log(bookedDates);
+    res.json({success:true,bookedDates})
+  } catch (error) {
+    console.log(error);
+  }
+}
