@@ -1,4 +1,4 @@
-import ChatModel from "../models/chatModel.jsx";
+import ChatModel from "../models/chatModel.js";
 
 
 
