@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { bookingHistory } from "../../Services/userApi";
 import Navbar from "./Navbar/Navbar";
 import ResortBanner from "./ResortBanner/ResortBanner";
+import { Link } from "react-router-dom";
 
 function Booking() {
   const [booking, setBooking] = useState([]);
@@ -10,10 +11,11 @@ function Booking() {
     try {
       (async function () {
         const { data } = await bookingHistory()
-        console.log(data);
+        console.log(data.booking,"rty");
         if (data.success) {
-          setBooking(data.booking);     
-          // setBooking(data.booking.reverse());
+          // setBooking(data.booking);     
+          setBooking(data.booking.reverse());
+
         }
       })();
     } catch (error) {
@@ -21,6 +23,7 @@ function Booking() {
     }
   }, []);
 
+  console.log(booking);
   return (
     <>
       <Navbar />
@@ -39,13 +42,19 @@ function Booking() {
               <p className="text-green-500 font-semibold">Check in : {new Date(item?.checkin).toLocaleDateString()} </p> 
               <p className="text-red-600 font-semibold">Check Out : { new Date(item?.checkout).toLocaleDateString()}</p> 
               </div>
+              <div>
+
               <p className="badge badge-success text-white">{item?.paymentMethod}</p>       
+             <Link to={'/chat'} state={item.user}><button className="btn btn-xs ml-4 btn-success badge-success text-white">Chat</button>     </Link>   
+              </div>
             </div>
+            
             <div className="flex justify-center pr-8 items-center">
                 <span className="text-xl font-mono italic font-semibold text-success">
                   Rs.{item?.resort.amount}
                 </span>
               </div>
+            
           </div>
         </div>
       ))}
