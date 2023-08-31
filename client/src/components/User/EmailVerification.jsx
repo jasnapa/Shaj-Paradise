@@ -32,10 +32,6 @@ function EmailVerification() {
           console.log(data.message);
         }
       } catch (error) {
-        // toast.error(error.message, {
-        //     position: "top-center",
-
-        // })
         console.log(error);
       }
     },
