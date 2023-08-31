@@ -140,7 +140,10 @@ const Sidebar = () => {
                   <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
                   <path d="M12.5 0c-.157 0-.313.035-.457.104l-4.086 1.49A2 2 0 0 0 7 3.628v13.744a2 2 0 0 0 1.957 1.935l4.085-1.488A1.999 1.999 0 0 0 14 16.372V2.628a2 2 0 0 0-1.957-1.935l-4.085 1.489A1.998 1.998 0 0 0 7.5 2h-4a2 2 0 0 0-1.997 1.859l-.5 7A2 2 0 0 0 2 13.629V18.5a2 2 0 0 0 1.859 1.997l.5.086a2 2 0 0 0 2.141-1.311l4-13a2 2 0 0 0-1.312-2.64l-.088-.027-.5-.086A2 2 0 0 0 5.5 1h4Z" />
                 </svg>
-                <span className="ml-2">Dashboard</span>
+                <Link to={"/admin/dashboard"}>
+                <span className="ml-2">
+                Dashboard
+                  </span></Link>
               </a>
             </li>
             <li>
@@ -215,7 +218,47 @@ const Sidebar = () => {
                   />
                 </svg>
                 <span className="ml-2">
-                  <Link to={"/admin/history"}>History</Link>
+                  <Link to={"/admin/payment"}>Payment</Link>
+                </span>
+              </a>
+            </li>
+
+            <li>
+              <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <svg
+                  className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M2.993 5a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0V7a2 2 0 0 0-2-2zm9 0a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0V7a2 2 0 0 0-2-2zM14 2a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0V4a2 2 0 0 0-2-2zM4.993 11a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0v-4a2 2 0 0 0-2-2zm5 0a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0v-4a2 2 0 0 0-2-2zm5 0a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0v-4a2 2 0 0 0-2-2z"
+                  />
+                </svg>
+                <span className="ml-2">
+                  <Link to={"/admin/history"}>Bookings</Link>
+                </span>
+              </a>
+            </li>
+
+            <li>
+              <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <svg
+                  className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M2.993 5a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0V7a2 2 0 0 0-2-2zm9 0a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0V7a2 2 0 0 0-2-2zM14 2a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0V4a2 2 0 0 0-2-2zM4.993 11a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0v-4a2 2 0 0 0-2-2zm5 0a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0v-4a2 2 0 0 0-2-2zm5 0a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0v-4a2 2 0 0 0-2-2z"
+                  />
+                </svg>
+                <span className="ml-2">
+                  <Link to={"/admin/salesReport"}>SalesReport</Link>
                 </span>
               </a>
             </li>
