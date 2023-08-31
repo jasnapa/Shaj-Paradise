@@ -169,10 +169,61 @@ export async function viewVendorDetails(req, res) {
 export async function adminHistory(req, res) {
   console.log("dfghjkl");
   try {
-    const history = await bookingModel.find({}).populate("resort").populate("user")
-    console.log(history);
+     const {fromDate , toDate} = req.query
+        if (fromDate && toDate) {
+            let query = bookingModel.find({});
+            query = query.where('date').gte(new Date(fromDate)).lte(new Date(toDate));
+            const history = await query.populate('user').populate('resort').populate('vendor');
+            return res.json({ success: true, history });
+        }
+    const history = await bookingModel.find({}).populate("resort").populate("user").populate("vendor")
       res.json({ success: true, history });
   } catch (error) {
     console.log(error);
   }
 }
+
+
+export async function getStats(req, res) {
+  try {
+    const count = await Promise.all([
+      UserModel.countDocuments({}).exec(),
+      vendorModel.countDocuments({}).exec(),
+      bookingModel.countDocuments({}).exec(),
+      resortModel.countDocuments({}).exec(),
+    ]);
+
+    const monthlyRevenuePipeline = [
+      {
+        $lookup: {
+          from: "resorts", // The name of the collection where resorts are stored
+          localField: "resort", // The field in the bookingModel that refers to the resort
+          foreignField: "_id", // The field in the resortModel that corresponds to _id
+          as: "resortDetails", // Alias for the joined resort document
+        },
+      },
+      {
+        $unwind: "$resortDetails", // Unwind the resortDetails array
+      },
+      {
+        $group: {
+          _id: { $month: "$date" }, // Group by month
+          totalRevenue: { $sum: "$resortDetails.amount" }, // Sum the resort's amount
+        },
+      },
+    ];
+
+    const monthlyRevenueResult = await bookingModel.aggregate(monthlyRevenuePipeline);
+
+    const monthlyRevenue = Array(12).fill(0); // Initialize an array for 12 months
+    monthlyRevenueResult.forEach((item) => {
+      monthlyRevenue[item._id - 1] = item.totalRevenue; // Populate the monthly revenue array
+    });
+console.log(monthlyRevenue);
+    res.json({ success: true, count, monthlyRevenue });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
