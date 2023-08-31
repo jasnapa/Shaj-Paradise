@@ -1,4 +1,4 @@
-import UserChat from "../../components/User/UserChat"
+import Chat from "../../components/User/Chat/Chat"
 
 
 
@@ -10,7 +10,7 @@ import UserChat from "../../components/User/UserChat"
 
 const UserChatPage=()=> {
     return(
-        <UserChat />
+        <Chat />
     )
 }
 export default UserChatPage
