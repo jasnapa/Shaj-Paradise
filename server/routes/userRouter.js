@@ -1,5 +1,5 @@
 import express from 'express'
-import { booking, bookingHistory, checkResortAvailability, payment, saveProfile, verifyPayment, viewResort } from '../controller/userController.js'
+import { booking, bookingHistory, checkResortAvailability, getBookedDates, payment, saveProfile, verifyPayment, viewResort } from '../controller/userController.js'
 import { verifyUser } from '../middleware/verifyUser.js'
 
 const router = express.Router()
@@ -12,6 +12,7 @@ router.post('/payment',payment)
 router.post('/verifypayment',verifyPayment)
 router.post('/resortAvailability',verifyUser,checkResortAvailability)
 router.patch('/saveProfile',verifyUser,saveProfile)
+router.post('/getBookedDates',verifyUser,getBookedDates)
 
 
 
