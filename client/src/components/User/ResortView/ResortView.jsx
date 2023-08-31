@@ -5,6 +5,7 @@ import Navbar from "../Navbar/Navbar";
 import {
   ResortAvailability,
   booking,
+  getBookedDates,
   userOnlinePay,
   verifyPayment,
 } from "../../../Services/userApi";
@@ -17,6 +18,7 @@ const ResortView = () => {
   const [PersonCount, setSelectedPersonCount] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState();
   const [minDate, setMinDate] = useState('');
+  const [bookedDates, setBookedDates] = useState([]);
   const navigate = useNavigate();
   const handleImageChange = (i) => {
     setImage(i);
@@ -28,17 +30,29 @@ const ResortView = () => {
   const resort = data._id;
   const vendor = data.vendor
 
-  useEffect
-  
-  
-  
-  
-  
-  (() => {
+  useEffect(() => {
     const currentDate = new Date();
     const formattedCurrentDate = currentDate.toISOString().split('T')[0];
     setMinDate(formattedCurrentDate);
-  }, []);
+
+    const fetchBookedDates = async () => {
+      try {
+        const { data } = await getBookedDates(resort); // Replace with your API call
+        if (data.success) {
+          setBookedDates(data.bookedDates);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchBookedDates();
+  }, [resort]);
+
+  const isDateBooked = (date) => {
+    return bookedDates.includes(date);
+  };
+
 
   async function handleSubmit() {
 
@@ -297,8 +311,13 @@ const ResortView = () => {
                     className="mr-4"
                     value={fromDate}
                     min={minDate}
+                    max={toDate}
+                    style={{
+                      color: isDateBooked(fromDate) ? 'red' : 'inherit', // Set color to red for booked dates
+                    }}
                     onChange={(e) => {
                       setFromDate(e.target.value);
+                      setToDate(e.target.value);
                       
                     }}
                   />
@@ -311,6 +330,12 @@ const ResortView = () => {
                       fromDate ? format(new Date(fromDate), "yyyy-MM-dd") : ""
                     }
                     value={toDate}
+                    max={
+                      bookedDates.length > 0
+                        ? bookedDates[bookedDates.length - 1]
+                        : ""
+                    }
+                    
                     onChange={(e) => setToDate(e.target.value)}
                     required
                   />
