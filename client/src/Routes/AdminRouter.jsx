@@ -8,6 +8,8 @@ import AdminUsersPage from "../Pages/Admin/AdminUserPage";
 import AdminResortPage from "../Pages/Admin/AdminResortPage";
 import AdminViewVendorPage from "../Pages/Admin/AdminViewVendorPage";
 import AdminHistoryPage from "../Pages/Admin/AdminHistoryPage";
+import AdminPaymentPage from "../Pages/Admin/AdminPaymentPage";
+import AdminSalesReportPage from "../Pages/Admin/AdminSalesReportPage";
 
 
 
@@ -25,6 +27,8 @@ function AdminRouter(){
             <Route path="resort" element={<AdminResortPage/>}/>
             <Route path="viewVendor" element={<AdminViewVendorPage/>}/>
             <Route path="history" element={<AdminHistoryPage/>}/>
+            <Route path="payment" element={<AdminPaymentPage/>}/>
+            <Route path="salesReport" element={<AdminSalesReportPage/>}/>
             </Route>
             <Route path="login" element={<AdminLoginPage/>}/>
 
