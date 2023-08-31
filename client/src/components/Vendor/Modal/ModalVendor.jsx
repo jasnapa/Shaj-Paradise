@@ -115,12 +115,12 @@ function ModalVendor(props) {
   };
 
   const isValidFileUploaded = (file) => {
-    const validExtensions = ["jpg", "png", "jpeg", "gif", "webp"];
+    const validExtensions = ["jpg", "jpeg", "gif", "webp"];
     const fileExtension = file.name.split(".").pop().toLowerCase();
     return validExtensions.includes(fileExtension);
   };
 
-  const convertToBase64 = (file) => {
+  const convertToBase64 = (file) => { 
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -295,7 +295,8 @@ function ModalVendor(props) {
                   type="file"
                   className="file-input file-input-ghost w-full mt-7 mb-10 max-w-xs"
                   onChange={handleFileChange}
-                  multiple
+                  accept=".jpg, .jpeg, .gif, .webp"
+                   multiple
                   required
                 />
                 <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
