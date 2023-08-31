@@ -40,7 +40,7 @@ function UserRouter(){
             <Route path="/booking" element={<BookingPage />}/>
             <Route path="/success" element={<SuccessPage/>}/>
             <Route path="/profile" element={<UserProfilePage />}/>
-            <Route path="/chat" element={<UserChatPage/>}/>
+            <Route path="/chat" element={<UserChatPage />}/>
         </Routes>
     )
 }
