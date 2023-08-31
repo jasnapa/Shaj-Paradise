@@ -1,4 +1,4 @@
-import AdminDash from "../../components/Admin/AdminDash"
+import AdminDash from "../../components/Admin/AdminDashboard"
 
 
 
