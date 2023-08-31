@@ -38,3 +38,8 @@ export const saveProfile = (values)=>{
     return axiosInstance("UserJwtKey").patch('/saveProfile',{...values})   
 }
 
+
+
+export const getBookedDates = (resort)=>{
+    return axiosInstance("UserJwtKey").post('/getBookedDates',{resort}) 
+}
