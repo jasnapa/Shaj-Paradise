@@ -6,7 +6,7 @@ import { bookingHistory } from "../../Services/userApi";
 
 
 
-const UserBooking = () => {
+function UserBooking() {
 const[booking,setBooking] = useState([])
 
   useEffect(() => { 

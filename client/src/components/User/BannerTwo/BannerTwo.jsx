@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BannerTwo = () => {
+function BannerTwo() {
   return (
     <div className="z-30 relative items-center justify-center w-full h-full overflow-auto">
       <div

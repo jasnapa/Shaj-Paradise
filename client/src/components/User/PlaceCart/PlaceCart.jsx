@@ -11,7 +11,7 @@ function PlaceCart() {
 Your Favourite Destinations</h2>
     <div className="flex justify-around ">
      <Link to={'/resorts'}  state={{ data:{place: 'kodaikanal'} }}>
-    <div className=" w-72 mt-16 mb-16 ">
+    <div className=" w-52 mt-16  mb-16 ">
       <figure>
         <img className="rounded-3xl " src={resort} alt="" />
       </figure>

@@ -6,7 +6,7 @@ import AdminStats from "./AdminStats/AdminStats";
 import Bar from "./Chart/Bar/Bar";
 // import AdminStats from "./AdminStats/AdminStats";
 
-const AdminDashboard = () => {
+function AdminDashboard(){
 const[count,setCount]= useState()
 const[monthlyRevenue,setMonthlyRevenue]=useState([])
   useEffect(() => { 

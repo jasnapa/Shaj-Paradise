@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { adminVendors } from "../../Services/adminApi";
 
-const AdminVendor = () => {
+function AdminVendor() {
   const [vendors, setVendors] = useState([]);
   const [reload, setReload] = useState(false);
   const [page, setPage] = useState(1);

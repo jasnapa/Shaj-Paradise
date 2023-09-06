@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar/Sidebar";
 import Swal from "sweetalert2";
 import { adminResort } from "../../Services/adminApi";
 
-const AdminResort = () => {
+function AdminResort() {
   const [resort, setResort] = useState([]);
   const [reload, setReload] = useState(false);
   const [page, setPage] = useState(1);

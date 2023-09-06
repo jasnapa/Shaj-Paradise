@@ -7,7 +7,7 @@ import { io } from "socket.io-client";
 import { chatRoom } from "../../../Services/chatApi";
 import chat from "../assets/chat.svg";
 
-const Chat = () => {
+function Chat() {
   const location = useLocation();
   const userID = location?.state;
   const [chats, setChats] = useState([]);

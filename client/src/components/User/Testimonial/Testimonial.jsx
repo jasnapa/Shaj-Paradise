@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Testimonials = () => {        
+function Testimonials() {        
     return (
         <section className="py-12 bg-green-950 sm:py-16 lg:py-20">
     <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">

@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 
 
 
-const AdminViewVendor = () =>{
+function AdminViewVendor(){
     const [resort, setResorts] = useState([]);
 
     const location = useLocation();

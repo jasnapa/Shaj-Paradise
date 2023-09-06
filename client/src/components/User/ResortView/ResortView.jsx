@@ -11,7 +11,7 @@ import {
 } from "../../../Services/userApi";
 import { toast } from "react-toastify";
 
-const ResortView = () => {
+function ResortView() {
   const location = useLocation();
   const { data } = location.state;
   const resort = data._id;

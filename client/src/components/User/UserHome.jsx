@@ -7,7 +7,7 @@ import Testimonials from "./Testimonial/Testimonial";
 import Footer from "./Footer/Footer";
 import PlaceCart from "./PlaceCart/PlaceCart";
 
-const UserHome = () => {
+function UserHome() {
   return (
     <div>
     <Navbar />

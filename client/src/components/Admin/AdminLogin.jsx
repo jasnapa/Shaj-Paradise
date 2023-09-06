@@ -8,7 +8,7 @@ import { authAdmin } from "../../Services/adminApi";
 
 
 
-const AdminLogin = ()=>{
+function AdminLogin() {
     const navigate = useNavigate()
 
   
