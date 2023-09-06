@@ -5,23 +5,30 @@ import Sidebar from "./Sidebar/Sidebar";
 import Modal from "./Modal/Modal";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { adminVendors } from "../../Services/adminApi";
 
 const AdminVendor = () => {
   const [vendors, setVendors] = useState([]);
   const [reload, setReload] = useState(false);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState();
+  const [limit, setLimit] = useState(5);
 
   useEffect(() => {
     try {
       (async function () {
-        const { data } = await axios.get("/admin/vendors");
+        const { data } = await adminVendors(page, limit)
         if (data.success) {
           setVendors(data.vendors);
+          setLimit(data.limit);
+          setPage(data.page);
+          setTotal(data.total);
         }
       })();
     } catch (error) {
       console.log(error);
     }
-  }, [reload]);
+  }, [reload,page]);
 
   async function blockVendor(values) {
     Swal.fire({
@@ -85,7 +92,7 @@ const AdminVendor = () => {
     <>
       <Sidebar />
 
-      <section class="py-1 bg-blueGray-50">
+      <section class="py-8 ml-18 bg-blueGray-50">
         <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
           <div class="relative flex px-10 py-10 flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
             <div class="rounded-t mb-0 px-4 py-3 border-0">
@@ -193,6 +200,25 @@ const AdminVendor = () => {
             </div>
           </div>
         </div>
+        <div className="ml-28">
+            <div className="flex justify-center items-baseline">
+              <div className="join">
+                {Array.from({ length: Math.ceil(total / limit) }).map(
+                  (_, index) => (
+                    <button
+                      key={index}
+                      className={`join-item btn btn-sm btn-white ${
+                        page === index + 1 ? "btn-active" : ""
+                      }`}
+                      onClick={() => setPage(index + 1)}
+                    >
+                      {index + 1}
+                    </button>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
       </section>
     </>
   );
