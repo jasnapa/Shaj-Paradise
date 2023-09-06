@@ -11,6 +11,8 @@ const UserHome = () => {
   return (
     <div>
     <Navbar />
+    <div>
+    <Navbar />
      <Banner />
      <PlaceCart />
      <Testimonials />

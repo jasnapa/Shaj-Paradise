@@ -17,6 +17,7 @@ function VendorRouter(){
     return(
         <Routes>
             <Route element = {<PrivateRoutes role={'vendor'} route={'/vendor/login'}/>} >
+            <Route element = {<PrivateRoutes role={'vendor'} route={'/vendor/login'}/>} >
             <Route path="home" element={<VendorHomePage/>}/>
             <Route path="welcome" element={<VendorWelcomePage/>}/>
             <Route path="resorts" element={<VendorResortsPage/>}/>

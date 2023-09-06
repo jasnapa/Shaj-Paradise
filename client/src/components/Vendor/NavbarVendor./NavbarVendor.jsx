@@ -125,3 +125,4 @@ useEffect( ()=>{
 
 
 export default NavbarVendor
+export default NavbarVendor

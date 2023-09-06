@@ -38,4 +38,4 @@ function VendorHome() {
   );
 }
 
-export default VendorHome;
+export default VendorHome

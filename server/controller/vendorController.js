@@ -12,6 +12,35 @@ const createToken = (id) => {
 
 let salt = bcrypt.genSaltSync(10);
 
+export async function vendorAuth(req,res){
+    try {
+        const authHeader = req.headers.authorization
+        if (authHeader) {
+            const token = authHeader.split(' ')[1]
+            jwt.verify(token, process.env.VENDOR_SECRET_KEY, async (err, decoded) => {
+                if (err) {
+                    res.json({ status: false, message: "Unauthorized" })
+                } else {
+                    const vendor = await vendorModel.findById({_id:decoded.id})
+                    console.log(vendor)
+                    if(vendor){
+                        res.json({status:true ,vendor,  message:"Authorised"})
+                    }else{
+                        res.json({status:false, message:"Vendor not found"})
+                    }
+                }
+            })
+        }else{
+            res.json({status:false , message:"User not exists"})
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+
 export async function vendorAuth(req, res) {
   try {
     const authHeader = req.headers.authorization;
