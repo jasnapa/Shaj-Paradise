@@ -231,14 +231,25 @@ export async function editProfile(req, res) {
 
 export async function vendorBooking(req, res) {
   try {
+    const page = parseInt(req.query.page) - 1 || 0
+    const limit = parseInt(req.query.limit) || 5
+    let sort = req.query.sort 
     let id = req.vendorId;
     const booking = await bookingModel
-      .find({ vendor: id })
+      .find({ vendor: id }).skip(page * limit).limit(limit)
       .populate("resort")
       .populate("user");
     console.log(booking, "hsfdfdhhh");
+    const total = await bookingModel.countDocuments({vendor: id});
+    const response = {
+      success: true,
+      total,
+      page: page + 1,
+      limit,
+      booking ,
+  };
     if (booking) {
-      res.json({ success: true, booking });
+      res.status(200).json(response)
     } else {
       res.json({ error: true });
     }
