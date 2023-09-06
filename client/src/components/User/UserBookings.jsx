@@ -35,7 +35,7 @@ function Booking() {
         vendorId,
         userId
       )
-      if (data.status) {resort.amount
+      if (data.status) {
         navigate('/Chat',{ state: userId });
       } else {
         console.log(data.err);
