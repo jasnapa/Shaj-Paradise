@@ -1,6 +1,5 @@
 import express from "express";
 import { adminAuth, adminHistory, adminLogin, approveVendor, blockUser, blockVendor, getStats, unblockUser, unblockVendor, verifyResort, viewResort, viewUsers, viewVendorDetails, viewVendors } from "../controller/adminController.js";
-import { verifyUser } from "../middleware/verifyUser.js";
 import { verifyAdmin } from "../middleware/verifyAdmin.js";
 
 
