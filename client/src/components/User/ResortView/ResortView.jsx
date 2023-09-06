@@ -12,23 +12,26 @@ import {
 import { toast } from "react-toastify";
 
 const ResortView = () => {
+  const location = useLocation();
+  const { data } = location.state;
+  const resort = data._id;
+  const vendor = data.vendor
   const [image, setImage] = useState(1);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [PersonCount, setSelectedPersonCount] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState();
+  const [disabledDates, setDisabledDates] = useState([]);
   const [minDate, setMinDate] = useState('');
   const [bookedDates, setBookedDates] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(data.amount)
   const navigate = useNavigate();
   const handleImageChange = (i) => {
     setImage(i);
-  };
-  const location = useLocation();
-  const { data } = location.state;
-  let amount = data.amount;
-   console.log(data,"jassss")
-  const resort = data._id;
-  const vendor = data.vendor
+  }
+
+ 
+
 
   useEffect(() => {
     const currentDate = new Date();
@@ -39,7 +42,19 @@ const ResortView = () => {
       try {
         const { data } = await getBookedDates(resort); // Replace with your API call
         if (data.success) {
-          setBookedDates(data.bookedDates);
+          
+          const formattedBookedDates = data.bookedDates.map((booking) => {
+            const from = new Date(booking.checkin);
+            const to = new Date(booking.checkout);
+
+            return {
+              from: from.toISOString().split("T")[0],
+              to: to.toISOString().split("T")[0],
+            };
+          });
+
+          setBookedDates(formattedBookedDates);
+          setDisabledDates(formattedBookedDates);
         }
       } catch (error) {
         console.error(error);
@@ -49,9 +64,31 @@ const ResortView = () => {
     fetchBookedDates();
   }, [resort]);
 
-  const isDateBooked = (date) => {
-    return bookedDates.includes(date);
-  };
+  const handlePersonChange = (e) => {
+    const selectedCount = parseInt(e.target.value);
+    if (selectedCount > 5) {
+      const additionalPersons = selectedCount - 5;
+      setTotalAmount(data.amount + additionalPersons * 1000);
+    } else {
+      setTotalAmount(data.amount);
+    }
+    setSelectedPersonCount(selectedCount);
+  }
+  
+  // const disableBookedDates = (bookedDates) => {
+  //   const disabledDates = bookedDates.map((date) => {
+  //     const fromDate = new Date(date.checkin);
+  //     const toDate = new Date(date.checkout);
+  
+  //     return {
+  //       from: fromDate.toISOString().split("T")[0],
+  //       to: toDate.toISOString().split("T")[0],
+  //     };
+  //   });
+  
+  //   return disabledDates;
+  // };
+ 
 
 
   async function handleSubmit() {
@@ -76,8 +113,7 @@ const ResortView = () => {
       else if (paymentMethod == "Online") {
       const {
         data: { order },
-      } = await userOnlinePay(amount);
-      console.log(order);
+      } = await userOnlinePay(totalAmount);
       var options = {
         key: "rzp_test_X2EWEu9JQG1E2R",
         amount: order.amount,
@@ -111,6 +147,7 @@ const ResortView = () => {
     } else if (paymentMethod == "Cash") {
       const { data } = await booking(
         resort,
+        totalAmount,
         vendor,
         fromDate,
         toDate,
@@ -119,7 +156,7 @@ const ResortView = () => {
       );
       if (data.status) {
         //
-        navigate("/success");
+        navigate("/successCash");
       } else {
         toast.error(data.message, {
           position: "top-center",
@@ -137,6 +174,7 @@ const ResortView = () => {
       if (data.success) {
         const { data } = await booking(
           resort,
+          totalAmount,
           vendor,
           fromDate,
           toDate,
@@ -235,7 +273,7 @@ const ResortView = () => {
             </h2>
             <p className="text-gray-500 text-sm">
               {" "}
-              <a href="#" className="text-indigo-600 hover:underline">
+              <a href="#" className="text-green-700 hover:underline">
                 {data.place}
               </a>
             </p>
@@ -243,9 +281,9 @@ const ResortView = () => {
             <div className="flex items-center space-x-4 my-4">
               <div>
                 <div className="rounded-lg bg-gray-100 flex py-2 px-3">
-                  <span className="text-indigo-400 mr-1 mt-1">$</span>
-                  <span className="font-bold text-indigo-600 text-3xl">
-                    {data.amount}
+                  <span className="text-green-700 mr-1 mt-1">$</span>
+                  <span className="font-bold text-green-700 text-3xl">
+                    {totalAmount}
                   </span>
                 </div>
               </div>
@@ -282,9 +320,7 @@ const ResortView = () => {
                   <select
                     className="select select-bordered"
                     value={PersonCount}
-                    onChange={(e) =>
-                      setSelectedPersonCount(parseInt(e.target.value))
-                    }
+                    onChange={(e) => handlePersonChange(e)}
                     required
                   >
                     <option disabled selected>
@@ -312,9 +348,9 @@ const ResortView = () => {
                     value={fromDate}
                     min={minDate}
                     max={toDate}
-                    style={{
-                      color: isDateBooked(fromDate) ? 'red' : 'inherit', // Set color to red for booked dates
-                    }}
+                    // disabled={disabledDates.some((date) => {
+                    //   return date.from <= fromDate && date.to >= fromDate;
+                    // })}
                     onChange={(e) => {
                       setFromDate(e.target.value);
                       setToDate(e.target.value);
@@ -331,9 +367,9 @@ const ResortView = () => {
                     }
                     value={toDate}
                     max={
-                      bookedDates.length > 0
-                        ? bookedDates[bookedDates.length - 1]
-                        : ""
+                      disabledDates.length > 0
+                        ? disabledDates[disabledDates.length - 1].from
+                        : ''
                     }
                     
                     onChange={(e) => setToDate(e.target.value)}
@@ -343,7 +379,7 @@ const ResortView = () => {
               </div>
               <div className="join mt-6">
                 <input
-                  className="join-item btn btn-sm"
+                  className="join-item btn btn-sm hover:bg-green-700"
                   type="radio"
                   value="Online"
                   checked={paymentMethod === "Online"}
@@ -353,7 +389,7 @@ const ResortView = () => {
                   required
                 />
                 <input
-                  className="join-item btn btn-sm"
+                  className="join-item btn btn-sm hover:bg-green-700"
                   type="radio"
                   value="Cash"
                   checked={paymentMethod === "Cash"}
@@ -366,7 +402,7 @@ const ResortView = () => {
               <button
                 onClick={handleSubmit}
                 type="button"
-                className="mt-8 h-14 px-6 py-2 font-semibold rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white"
+                className="mt-8 h-14 px-6 py-2 font-semibold rounded-xl bg-green-700 hover:bg-green-900 text-white"
               >
                 Book Now
               </button>
