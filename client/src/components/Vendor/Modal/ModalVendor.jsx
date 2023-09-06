@@ -273,6 +273,7 @@ function ModalVendor(props) {
                 </div>
 
                 <div>
+                  
                   <input
                     type="text"
                     name="amenities"
