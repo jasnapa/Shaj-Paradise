@@ -7,8 +7,8 @@ export const authUser = ()=>{
     return axiosInstance("UserJwtKey").get('/user/auth')
 }
 
-export const booking = (resort,vendor,checkin,checkout,person,paymentMethod,orderId)=>{
-    return axiosInstance("UserJwtKey").post('/booking',{resort,vendor,checkin,checkout,person,paymentMethod,orderId})
+export const booking = (resort,totalAmount,vendor,checkin,checkout,person,paymentMethod,orderId)=>{
+    return axiosInstance("UserJwtKey").post('/booking',{resort,totalAmount,vendor,checkin,checkout,person,paymentMethod,orderId})
 }
 
 export const bookingHistory = ()=>{
