@@ -8,6 +8,7 @@ import VendorSignupPage from "../Pages/Vendor/VendorSignupPage";
 import VendorResortsPage from "../Pages/Vendor/VendorResortsPage";
 import VendorProfilePage from "../Pages/Vendor/VendorProfilePage";
 import VendorHistoryPage from "../Pages/Vendor/VendorHistoryPage";
+import VendorChatPage from "../Pages/Vendor/VendorChatPage";
 
 
 
@@ -21,6 +22,7 @@ function VendorRouter(){
             <Route path="resorts" element={<VendorResortsPage/>}/>
             <Route path="vendorProfile" element={<VendorProfilePage/>}/>
             <Route path="vendorHistory" element={<VendorHistoryPage/>}/>
+            <Route path="vendorChat" element={<VendorChatPage/>}/>
 
             </Route>
           
