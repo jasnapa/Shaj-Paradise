@@ -2,16 +2,22 @@ import React, { useEffect, useState } from "react";
 import { bookingHistory } from "../../Services/userApi";
 import Navbar from "./Navbar/Navbar";
 import ResortBanner from "./ResortBanner/ResortBanner";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { createChat } from "../../Services/chatApi";
+import { useSelector } from "react-redux";
 
 function Booking() {
   const [booking, setBooking] = useState([]);
+  const user = useSelector((state)=>{
+    return state.user
+  })
+  const navigate = useNavigate()
+  const userId = user.id
 
   useEffect(() => {
     try {
       (async function () {
         const { data } = await bookingHistory()
-        console.log(data.booking,"rty");
         if (data.success) {
           // setBooking(data.booking);     
           setBooking(data.booking.reverse());
@@ -21,9 +27,24 @@ function Booking() {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  },[]);
 
-  console.log(booking);
+  const handleChat = async(vendorId)=>{
+    try {
+      const { data } = await createChat(
+        vendorId,
+        userId
+      )
+      if (data.status) {resort.amount
+        navigate('/Chat',{ state: userId });
+      } else {
+        console.log(data.err);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -39,19 +60,20 @@ function Booking() {
               <p className="card-title">{item?.resort.resortName}</p>
               <p className="max-h-6 overflow-hidden text-ellipsis">{item?.resort.description}</p>
               <div className="flex">
-              <p className="text-green-500 font-semibold">Check in : {new Date(item?.checkin).toLocaleDateString()} </p> 
-              <p className="text-red-600 font-semibold">Check Out : { new Date(item?.checkout).toLocaleDateString()}</p> 
+              <p className="text-neutral-focus ">Check in : {new Date(item?.checkin).toLocaleDateString()} </p> 
+              <p className="text-neutral-focus ">Check Out : { new Date(item?.checkout).toLocaleDateString()}</p> 
               </div>
               <div>
 
-              <p className="badge badge-success text-white">{item?.paymentMethod}</p>       
-             <Link to={'/chat'} state={item.user}><button className="btn btn-xs ml-4 btn-success badge-success text-white">Chat</button>     </Link>   
+              <p className="btn btn-xs ml-4 btn-success badge-success text-white">{item?.paymentMethod}</p>
+
+           <button onClick={()=>handleChat(item.vendor._id)} className="btn btn-xs ml-4 btn-success badge-success text-white">Chat</button>  
               </div>
             </div>
             
             <div className="flex justify-center pr-8 items-center">
                 <span className="text-xl font-mono italic font-semibold text-success">
-                  Rs.{item?.resort.amount}
+                  Rs.{item?.totalAmount}
                 </span>
               </div>
             
