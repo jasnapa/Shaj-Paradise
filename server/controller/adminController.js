@@ -63,8 +63,19 @@ export async function adminAuth(req, res) {
 
 export async function viewUsers(req, res) {
   try {
-    const users = await UserModel.find({});
-    res.json({ success: true, users });
+    const page = parseInt(req.query.page) - 1 || 0
+    const limit = parseInt(req.query.limit) || 5
+    let sort = req.query.sort 
+    const users = await UserModel.find({}).sort(sort).skip(page * limit).limit(limit);
+    const total = await UserModel.countDocuments({});
+    const response = {
+      success: true,
+      total,
+      page: page + 1,
+      limit,
+      users ,
+  };
+  res.status(200).json(response)
   } catch (error) {
     console.log(error);
   }
@@ -94,8 +105,19 @@ export async function unblockUser(req, res) {
 
 export async function viewVendors(req, res) {
   try {
-    const vendors = await vendorModel.find({});
-    res.json({ success: true, vendors });
+    const page = parseInt(req.query.page) - 1 || 0
+    const limit = parseInt(req.query.limit) || 5
+    let sort = req.query.sort 
+    const vendors = await vendorModel.find({}).sort(sort).skip(page * limit).limit(limit);
+    const total = await vendorModel.countDocuments({});
+    const response = {
+      success: true,
+      total,
+      page: page + 1,
+      limit,
+      vendors ,
+  };
+  res.status(200).json(response)
   } catch (error) {
     console.log(error);
   }
@@ -103,8 +125,21 @@ export async function viewVendors(req, res) {
 
 export async function viewResort(req, res) {
   try {
-    const resort = await resortModel.find({});
-    res.json({ success: true, resort });
+    const page = parseInt(req.query.page) - 1 || 0
+    const limit = parseInt(req.query.limit) || 5
+    let sort = req.query.sort 
+
+    const resort = await resortModel.find({}).sort(sort).skip(page * limit).limit(limit);
+    const total = await resortModel.countDocuments({});
+    const response = {
+      success: true,
+      total,
+      page: page + 1,
+      limit,
+      resort ,
+  };
+    
+  res.status(200).json(response)
   } catch (error) {
     console.log(error);
   }
@@ -156,7 +191,7 @@ export async function verifyResort(req, res) {
 
 export async function viewVendorDetails(req, res) {
   try { 
-    console.log(req.body,'kjkj');
+    // console.log(req.body,'kjkj');
     const {vendor}=req.body
     const resort = await resortModel.find({vendor:vendor});
     res.json({ success: true, resort });
@@ -167,17 +202,39 @@ export async function viewVendorDetails(req, res) {
 
 
 export async function adminHistory(req, res) {
-  console.log("dfghjkl");
   try {
      const {fromDate , toDate} = req.query
-        if (fromDate && toDate) {
+        if (fromDate && toDate) { 
             let query = bookingModel.find({});
             query = query.where('date').gte(new Date(fromDate)).lte(new Date(toDate));
-            const history = await query.populate('user').populate('resort').populate('vendor');
+            const history = await query.populate('user').populate('resort').populate('vendor')
             return res.json({ success: true, history });
         }
-    const history = await bookingModel.find({}).populate("resort").populate("user").populate("vendor")
-      res.json({ success: true, history });
+       
+              const page = parseInt(req.query.page) - 1 || 0
+              const limit = parseInt(req.query.limit) || 5
+              const search = req.query.search || ""
+              let sort = req.query.sort 
+      
+      
+      
+            
+      
+              const history  = await bookingModel.find({}).sort(sort).skip(page * limit).limit(limit).populate("resort").populate("user").populate("vendor")
+              const total = await bookingModel.countDocuments({});
+      
+              const response = {
+                  success: true,
+                  total,
+                  page: page + 1,
+                  limit,
+                  history ,
+              };
+      
+              res.status(200).json(response)
+          
+      
+   
   } catch (error) {
     console.log(error);
   }
@@ -195,20 +252,9 @@ export async function getStats(req, res) {
 
     const monthlyRevenuePipeline = [
       {
-        $lookup: {
-          from: "resorts", // The name of the collection where resorts are stored
-          localField: "resort", // The field in the bookingModel that refers to the resort
-          foreignField: "_id", // The field in the resortModel that corresponds to _id
-          as: "resortDetails", // Alias for the joined resort document
-        },
-      },
-      {
-        $unwind: "$resortDetails", // Unwind the resortDetails array
-      },
-      {
         $group: {
           _id: { $month: "$date" }, // Group by month
-          totalRevenue: { $sum: "$resortDetails.amount" }, // Sum the resort's amount
+          totalRevenue: { $sum: "$totalAmount" }, // Sum the resort's amount
         },
       },
     ];
