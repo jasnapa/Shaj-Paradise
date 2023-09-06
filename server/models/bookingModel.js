@@ -40,6 +40,10 @@ const BookingSchema = new mongoose.Schema({
     paymentMethod:{
         type:String,
     },
+    totalAmount:{
+        type:Number,
+        required:true
+    }
    
 })
 
