@@ -6,6 +6,7 @@ import UserModel from '../models/userModel.js';
 export async function verifyUser(req, res, next) {
 
     try {
+        
         const authHeader = req.headers.authorization
 
         if (authHeader) {
