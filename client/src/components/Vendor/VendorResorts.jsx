@@ -38,6 +38,11 @@ function VendorResorts() {
               <div className="card-body">
                 <h2 className="card-title">{item.resortName}</h2>
                 <p className="font-bold">Rs.{item.amount}</p>
+                {item.verify ? (
+                  <div className=" badge badge-success text-white font-semibold p-2 text-xs">Verified</div>
+                ) : (
+                  <div className=" badge badge-warning text-white font-semibold p-2 text-xs">Waiting for Update</div>
+                )}
                 <div className="card-actions justify-end">
                   <EditModal editMode={true} refresh={refresh} setRefresh={setRefresh} resort={item} />
                 </div>
