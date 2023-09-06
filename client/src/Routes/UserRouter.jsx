@@ -12,6 +12,7 @@ import SuccessPage from "../Pages/User/SuccessPage";
 import BookingPage from "../Pages/User/BookingPage";
 import UserProfilePage from "../Pages/User/UserProfile";
 import UserChatPage from "../Pages/User/UserChatPage";
+import CashSuccessPage from "../Pages/User/CashSuccessPage";
 
 
 
@@ -39,6 +40,7 @@ function UserRouter(){
             <Route path="/userBooking" element={<UserBookingPage />}/>
             <Route path="/booking" element={<BookingPage />}/>
             <Route path="/success" element={<SuccessPage/>}/>
+            <Route path="/successCash" element={<CashSuccessPage/>}/>
             <Route path="/profile" element={<UserProfilePage />}/>
             <Route path="/chat" element={<UserChatPage />}/>
         </Routes>
