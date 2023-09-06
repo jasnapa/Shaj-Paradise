@@ -2,23 +2,30 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar/Sidebar";
 import Swal from "sweetalert2";
+import { adminResort } from "../../Services/adminApi";
 
 const AdminResort = () => {
   const [resort, setResort] = useState([]);
   const [reload, setReload] = useState(false);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState();
+  const [limit, setLimit] = useState(5);console.log(page);
 
   useEffect(() => {
     try {
       (async function () {
-        const { data } = await axios.get("/admin/resort");
+        const { data } = await adminResort(page, limit)
         if (data.success) {
           setResort(data.resort);
+          setLimit(data.limit);
+          setPage(data.page);
+          setTotal(data.total);
         }
       })();
     } catch (error) {
       console.log(error);
     }
-  }, [reload]);
+  }, [reload,page]);
 
   async function verifyResort(values) {
     Swal.fire({
@@ -136,6 +143,25 @@ const AdminResort = () => {
             </div>
           </div>
         </div>
+        <div className="ml-28">
+            <div className="flex justify-center items-baseline">
+              <div className="join">
+                {Array.from({ length: Math.ceil(total / limit) }).map(
+                  (_, index) => (
+                    <button
+                      key={index}
+                      className={`join-item btn btn-sm btn-white ${
+                        page === index + 1 ? "btn-active" : ""
+                      }`}
+                      onClick={() => setPage(index + 1)}
+                    >
+                      {index + 1}
+                    </button>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
       </section>
     </>
   );
