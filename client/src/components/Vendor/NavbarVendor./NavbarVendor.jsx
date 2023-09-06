@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { authVendor, getVendor } from "../../../Services/vendorApi";
 import { setVendorDetails, setVendorSignout } from "../../../redux/Features/vendorSlice";
 import { useDispatch, useSelector } from "react-redux";
+import gif from '../../User/assets/speech-bubble.gif'
 
 
 
@@ -88,7 +89,8 @@ useEffect( ()=>{
       {
           vendor.id && vendor.id ?
           <div className="navbar-end">
-            <div className="dropdown ml-72 dropdown-end mr-4">
+           <Link to='/vendor/vendorChat' state={vendor.id} ><button className="self-end"><img style={{height:'38px',width:'38px'}} src={gif} alt="" /></button></Link>
+            <div className="dropdown ml-6 dropdown-end mr-4">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
                   <img src="https://source.unsplash.com/100x100/?portrait" />
@@ -99,7 +101,6 @@ useEffect( ()=>{
                   <Link to={'/vendor/vendorProfile'}>
                   <p className="justify-between">
                     Profile
-                    <span className="badge">New</span>
                   </p></Link>
                 </li>
                 <li><Link to={'/vendor/vendorHistory/'}><a>History</a></Link></li>
