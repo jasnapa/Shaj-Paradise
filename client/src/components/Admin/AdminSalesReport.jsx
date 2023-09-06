@@ -4,26 +4,36 @@ import axios from "axios";
 import { format } from "date-fns";
 import jsPDF from "jspdf"
 import "jspdf-autotable"; // Import the autotable plugin
+import { adminSales } from "../../Services/adminApi";
 
 function AdminSalesReport() {
   const [sales, setSales] = useState();
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [minDate, setMinDate] = useState('');
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState();
+  const [limit, setLimit] = useState(5);
+ 
+
 
   useEffect(() => {
     try {
       (async function () {
-        const { data } = await axios.get(`/admin/adminHistory?fromDate=${fromDate}&toDate=${toDate}`);
-        console.log(data.history, "jjj");
+        const { data } = await adminSales(fromDate,toDate,page, limit)
+        // console.log(data.history, "jjj");
         if (data.success) {
           setSales(data.history);
+          setLimit(data.limit);
+          setPage(data.page);
+          setTotal(data.total);
+          
         }
       })();
     } catch (error) {
       console.log(error);
     }
-  }, [toDate,fromDate]);
+  }, [toDate,fromDate,page]);
 
   const generatePDF = () => {
     const pdf = new jsPDF();
@@ -166,7 +176,7 @@ function AdminSalesReport() {
                             {item.paymentMethod}
                           </td>
                           <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                            {item.resort.amount}
+                            {item.totalAmount}
                           </td>
                         </tr>
                       );
@@ -176,6 +186,25 @@ function AdminSalesReport() {
             </div>
           </div>
         </div>
+        <div className="ml-28">
+            <div className="flex justify-center items-baseline">
+              <div className="join">
+                {Array.from({ length: Math.ceil(total / limit) }).map(
+                  (_, index) => (
+                    <button
+                      key={index}
+                      className={`join-item btn btn-sm btn-white ${
+                        page === index + 1 ? "btn-active" : ""
+                      }`}
+                      onClick={() => setPage(index + 1)}
+                    >
+                      {index + 1}
+                    </button>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
       </section>
     </>
   );
