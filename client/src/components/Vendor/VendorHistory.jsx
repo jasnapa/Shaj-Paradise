@@ -9,20 +9,26 @@ import { vendorBooking } from "../../Services/vendorApi";
 
 function VendorHistory() {
 const[bookings,setHistory] = useState([])
+const [page, setPage] = useState(1);
+  const [total, setTotal] = useState();
+  const [limit, setLimit] = useState(5);
 
   useEffect(() => { 
     try {
       (async function () {
-        const { data } = await vendorBooking();
+        const { data } = await vendorBooking(page, limit);
         console.log(data,"jjj")
         if (data.success) {
           setHistory(data.booking);
+          setLimit(data.limit);
+          setPage(data.page);
+          setTotal(data.total);
         }
       })();
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [page]);
 
 
   return (
@@ -87,7 +93,7 @@ const[bookings,setHistory] = useState([])
                           {item.resort.resortName}
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                          {item.resort.amount}
+                          {item.totalAmount}
                         </td>
                         <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                           {new Date(item.checkin).toLocaleDateString()}
@@ -95,6 +101,7 @@ const[bookings,setHistory] = useState([])
                         <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                           {new Date(item.checkout).toLocaleDateString()}
                         </td>
+                      
                       </tr>
                     );
                   })}
@@ -103,6 +110,25 @@ const[bookings,setHistory] = useState([])
             </div>
           </div>
         </div>
+        <div className="ml-28">
+            <div className="flex justify-center items-baseline">
+              <div className="join">
+                {Array.from({ length: Math.ceil(total / limit) }).map(
+                  (_, index) => (
+                    <button
+                      key={index}
+                      className={`join-item btn btn-sm btn-white ${
+                        page === index + 1 ? "btn-active" : ""
+                      }`}
+                      onClick={() => setPage(index + 1)}
+                    >
+                      {index + 1}
+                    </button>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
       </section>
     </>
   );
