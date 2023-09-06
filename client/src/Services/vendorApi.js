@@ -31,8 +31,8 @@ export const editProfile = (values)=>{
 }
 
 
-export const vendorBooking = ()=>{
-    return axiosInstance("VendorJwtKey").get("/vendor/vendorBooking")
+export const vendorBooking = (page, limit)=>{
+    return axiosInstance("VendorJwtKey").get(`/vendor/vendorBooking?page=${page}&limit=${limit}`)
 }
 
 export const editResort = ( values,images,locations,place,_id)=>{
