@@ -49,12 +49,12 @@ export async function viewResort(req, res) {
 
 export async function booking(req, res) {
   try {
-    const { resort,vendor, person, checkin, checkout, orderId, paymentMethod } =
+    const { resort,totalAmount,vendor, person, checkin, checkout, orderId, paymentMethod } =
       req.body;
-    console.log(req.body);
     const booking = await bookingModel
       .create({
         resort,
+        totalAmount,
         vendor,
         user: req.userId,
         person,
@@ -79,8 +79,7 @@ export async function booking(req, res) {
 export async function bookingHistory(req, res) {
   try {
     let id = req.userId;
-    const booking = await bookingModel.find({ user: id }).populate("resort")
-    console.log(booking);
+    const booking = await bookingModel.find({ user: id }).populate("resort").populate('vendor')
     if (booking) {
       res.json({ success: true, booking });
     } else {
@@ -222,13 +221,20 @@ export async function saveProfile(req,res){
 
 export async function getBookedDates(req,res){
   try {
-    console.log("lkjhgfds",req.body);
+    // console.log("lkjhgfds",req.body);
+    
     const {resort}=req.body
     const bookedDates = await bookingModel.find({
       resort: resort
     },{checkin:1,checkout:1})
-    console.log(bookedDates);
-    res.json({success:true,bookedDates})
+    const formattedBookedDates = bookedDates.map((booking) => {
+      return {
+        from: new Date(booking.checkin).toISOString().split("T")[0],
+        to: new Date(booking.checkout).toISOString().split("T")[0],
+      };
+    });
+
+    res.json({success:true, bookedDates: formattedBookedDates})
   } catch (error) {
     console.log(error);
   }
