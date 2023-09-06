@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar/Sidebar";
-import axios from "axios";
+import { adminPayment } from "../../Services/adminApi";
 
 
 
@@ -10,21 +10,29 @@ import axios from "axios";
 
 function AdminPayment(){
 
+  
   const[payment,setPayment]=useState()
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState();
+  const [limit, setLimit] = useState(5);console.log(page);
+
 
   useEffect(() => { 
     try {
       (async function () {
-        const { data } = await axios.get("/admin/adminHistory");
-        console.log(data.history,"jjj")
+        const { data } = await adminPayment(page, limit)
+        console.log(data.history,"kkk")
         if (data.success) {
           setPayment(data.history);
+          setLimit(data.limit);
+          setPage(data.page);
+          setTotal(data.total);
         }
       })();
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [page]);
 
 
     return(
@@ -90,7 +98,7 @@ function AdminPayment(){
                         </td>
 
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                          {item.resort.amount}
+                          {item.totalAmount}
                         </td>
                       </tr>
                     );
@@ -98,6 +106,25 @@ function AdminPayment(){
                 </tbody>
                 
                 </table>
+              </div>
+            </div>
+          </div>
+          <div className="ml-28">
+            <div className="flex justify-center items-baseline">
+              <div className="join">
+                {Array.from({ length: Math.ceil(total / limit) }).map(
+                  (_, index) => (
+                    <button
+                      key={index}
+                      className={`join-item btn btn-sm btn-white ${
+                        page === index + 1 ? "btn-active" : ""
+                      }`}
+                      onClick={() => setPage(index + 1)}
+                    >
+                      {index + 1}
+                    </button>
+                  )
+                )}
               </div>
             </div>
           </div>
