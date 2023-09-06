@@ -33,7 +33,6 @@ function UserSignup(){
         .max(10, 'Mobile number not valid')
         .min(10, 'Mobile number not valid')
         .required("Mobile is required"),
-
     password: Yup.string()
         .min(6, 'password must be at least 6 charecters')
         .required("Password is required"),
