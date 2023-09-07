@@ -38,3 +38,7 @@ export const vendorBooking = (page, limit)=>{
 export const editResort = ( values,images,locations,place,_id)=>{
     return axiosInstance("VendorJwtKey").patch("/vendor/editResort",{...values,images,locations,place,_id})
 }
+
+
+
+

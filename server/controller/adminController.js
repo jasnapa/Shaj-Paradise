@@ -191,8 +191,7 @@ export async function verifyResort(req, res) {
 
 export async function viewVendorDetails(req, res) {
   try { 
-    // console.log(req.body,'kjkj');
-    const {vendor}=req.body
+    const {vendor}=req.body 
     const resort = await resortModel.find({vendor:vendor});
     res.json({ success: true, resort });
   } catch (error) {

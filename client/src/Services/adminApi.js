@@ -39,3 +39,9 @@ export const adminHistory = (page,limit)=>{
 export const adminSales = (fromDate,toDate,page, limit)=>{
     return axiosInstance("AdminJwtKey").get(`/admin/adminHistory?fromDate=${fromDate}&toDate=${toDate}&page=${page}&limit=${limit}`);
 }
+
+
+
+export const viewVendor = (vendor)=>{
+    return axiosInstance("AdminJwtKey").post("/admin/viewVendors",{vendor});
+}

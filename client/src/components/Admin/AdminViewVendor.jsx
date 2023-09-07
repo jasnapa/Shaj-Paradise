@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar/Sidebar";
 import { useLocation } from "react-router-dom";
+import { viewVendor } from "../../Services/adminApi";
+
 
 
 
@@ -16,7 +18,7 @@ const vendor= data._id
     useEffect(() => {
         try {
           (async function () {
-            const { data } = await axios.post("/admin/viewVendors",{vendor});
+            const { data } = await viewVendor(vendor)
             console.log(data,'ytftf');
             if (data.success) {
               setResorts(data.resort);
