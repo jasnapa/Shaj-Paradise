@@ -43,11 +43,13 @@ function Sidebar(){
                   ></path>
                 </svg>
               </button>
-              <a href="https://flowbite.com" className="flex ml-2 md:mr-24">
+              <Link to={"/admin/dashboard"}>
+              <p className="flex ml-2 md:mr-24">
                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                   Shaj Paradise
                 </span>
-              </a>
+              </p>
+              </Link>
             </div>
             <div className="flex items-center">
               <div className="flex items-center ml-3">
