@@ -25,7 +25,7 @@ app.use(mongoSanitize())
 app.use(
     cors({
       origin: [
-        "http://localhost:5000","https://shajparadise.netlify.app"
+        "https://shajparadise.netlify.app","http://localhost:5000"
       ],
       credentials: true,
     })

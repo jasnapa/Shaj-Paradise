@@ -296,7 +296,7 @@ function ModalVendor(props) {
                   type="file"
                   className="file-input file-input-ghost w-full mt-7 mb-10 max-w-xs"
                   onChange={handleFileChange}
-                  accept=".jpg, .jpeg, .gif, .webp"
+                  accept=".jpg, .jpeg, .webp"
                    multiple
                   required
                 />
