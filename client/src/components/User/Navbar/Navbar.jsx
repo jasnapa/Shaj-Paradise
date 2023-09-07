@@ -63,7 +63,7 @@ useEffect( ()=>{
             <Link to={'/resorts'}><a > Resorts</a></Link> 
             </li>
             <li>
-              <p>Orders</p>
+            <Link to={'/booking'}><a>Orders</a></Link> 
             </li>
           </ul>
         </div>
