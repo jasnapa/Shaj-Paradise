@@ -31,7 +31,7 @@ function VendorChat() {
 
   useEffect(() => {
     // Establish socket connection
-    socket.current = io("http://localhost:3000"); // Replace with your server URL
+    socket.current = io("https://shajparadise.comicworld.store"); // Replace with your server URL
 
     socket.current.emit("new-user-add", userID);
     socket.current.on("get-users", (users) => {
