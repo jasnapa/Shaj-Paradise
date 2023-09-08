@@ -52,7 +52,7 @@ export async function getUser(req, res) {
 
 export async function chats(req,res) {
     try {
-      console.log('dsfsdfd')
+      
       const chat = await ChatModel.find({
         members: { $in: [req.params.Id] },
       });
