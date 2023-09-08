@@ -71,7 +71,7 @@ useEffect( ()=>{
           </ul>
         </div>
         <Link to={'/vendor/home/'}>
-        <a className="btn btn-ghost normal-case text-xl">Shaj Paradise</a></Link> 
+        <p className="normal-case font-semibold text-lg text-green-800 cursor-pointer sm:text-xl">Shaj Paradise</p></Link> 
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">

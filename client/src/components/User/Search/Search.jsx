@@ -2,7 +2,7 @@ import React from "react";
 
 function Search({ setSearch }) {
   return (
-    <div className="absolute z-50 left-0 right-0 m-auto mt-28 max-w-md shadow-lg rounded-xl ">
+    <div className="absolute z-20 left-0 right-0 m-auto mt-28 max-w-md shadow-lg rounded-xl ">
       <div className="relative flex items-center  w-full h-12 rounded-lg focus-within:shadow-lg overflow-hidden">
         <div className="grid place-items-center h-full w-12 text-gray-300">
           <svg
@@ -21,7 +21,7 @@ function Search({ setSearch }) {
           </svg>
         </div>
         <input
-          className="peer h-full w-full outline-none input input-ghost text-sm text-gray-700 pr-2"
+          className="peer h-full font-bold placeholder-green-900 placeholder-opacity-100 w-full outline-none input input-ghost text-sm text-gray-700 pr-2"
           type="text"
           id="search"
           placeholder="Search a resort.."

@@ -23,7 +23,7 @@ function VendorHome() {
   return (
     <>
       <NavbarVendor />   
-			<div className="carousel max-h-screen rounded-box">
+			<div className="carousel max-h-screen md:carousel-center carousel-vertical rounded-box">
       {resorts.map((item, index) => {
         return (
 			<div className="carousel-item w-full">

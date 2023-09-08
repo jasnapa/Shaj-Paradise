@@ -5,7 +5,7 @@ const AdminStats = ({ count }) => {
   console.log(count, "km");
   return (
     <>
-      <div className='grid grid-cols-1 md:grid-cols-2 md:ml-40 md:flex justify-center gap-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 mt-16 md:mt-0 md:ml-40 md:flex justify-center gap-4'>
         <div className="stats shadow-xl mt-4 md:mt-28">
           <div className="stat">
             <div className="stat-figure text-secondary">

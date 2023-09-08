@@ -45,10 +45,10 @@ function SearchBar() {
           value={place ? place : value}
           placeholder="Select your Location"
           onFocus={() => setPlace("")}
-          className="z-30  input input-ghost font-bold absolute uppercase rounded-full w-full py-4 pl-4 text-base-100 leading-tight lg:text-sm text-xs"
+          className="z-30  input input-ghost placeholder-white font-bold absolute uppercase rounded-full w-full py-4 pl-4 text-base-100 leading-tight lg:text-sm text-xs"
           type="text"
         />
-        <ul className=" absolute  w-full mt-52 py-4   " >
+        <ul className=" absolute w-52 mt-60 py-4   " >
         {!place && showList &&
         suggestions.map((item) => {
           return <li  onClick={()=>handleRetrieve(item.geometry.coordinates , item.place_name)} className="text-start bg-white rounded-md pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">

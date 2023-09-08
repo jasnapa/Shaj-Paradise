@@ -35,7 +35,7 @@ useEffect( ()=>{
     <>
     <div className="navbar shadow-xl absolute z-30 bg-transparent ">
       <div className="navbar-start">
-        <div className="dropdown">
+        <div className="dropdown z-50">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ useEffect( ()=>{
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm text-green-700 font-semibold dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="z-50 menu menu-sm text-green-700 font-semibold dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
             <Link to={'/'}><a > Home</a></Link> 
@@ -68,7 +68,7 @@ useEffect( ()=>{
           </ul>
         </div>
         <Link to={'/'}>
-        <p className="btn btn-ghost normal-case text-xl text-green-500">Shaj Paradise</p></Link> 
+        <p className="normal-case font-semibold text-lg text-green-800 cursor-pointer sm:text-xl">Shaj Paradise</p></Link> 
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu text-green-800 font-bold menu-horizontal px-1">

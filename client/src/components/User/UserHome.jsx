@@ -9,7 +9,7 @@ import PlaceCart from "./PlaceCart/PlaceCart";
 
 function UserHome() {
   return (
-    <div>
+    <div className="overflow-hidden">
     <Navbar />
      <Banner />
      <PlaceCart />
