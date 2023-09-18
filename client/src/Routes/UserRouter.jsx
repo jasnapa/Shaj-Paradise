@@ -14,6 +14,7 @@ import UserProfilePage from "../Pages/User/UserProfile";
 import UserChatPage from "../Pages/User/UserChatPage";
 import CashSuccessPage from "../Pages/User/CashSuccessPage";
 import PrivateRoutes from "../utils/PrivateRoutes";
+import NotFoundPage from "../Pages/404/NotFoundPage";
 
 
 
@@ -45,6 +46,7 @@ function UserRouter(){
             <Route path="/" element={<HomePage />}/>
             <Route path="/resorts" element={<UserResortPage />}/>
             <Route path="/viewResorts" element={<ResortViewPage />}/>
+            <Route path="/*" element={<NotFoundPage/>}/>
            
         </Routes>
     )

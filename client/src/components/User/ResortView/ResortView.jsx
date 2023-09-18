@@ -285,7 +285,7 @@ function ResortView() {
             <div className="flex items-center space-x-4 my-4">
               <div>
                 <div className="rounded-lg bg-gray-100 flex py-2 px-3">
-                  <span className="text-green-700 mr-1 mt-1">$</span>
+                  <span className="text-green-700 mr-1 mt-1 text-2xl">₹</span>
                   <span className="font-bold text-green-700 text-3xl">
                     {totalAmount}
                   </span>
