@@ -13,6 +13,7 @@ import BookingPage from "../Pages/User/BookingPage";
 import UserProfilePage from "../Pages/User/UserProfile";
 import UserChatPage from "../Pages/User/UserChatPage";
 import CashSuccessPage from "../Pages/User/CashSuccessPage";
+import PrivateRoutes from "../utils/PrivateRoutes";
 
 
 
@@ -25,18 +26,8 @@ function UserRouter(){
     return(
         <Routes>
 
-            {/* <Route element = {<PrivateRoutes role={'user'} route={'/login'}/>}> 
+            <Route element = {<PrivateRoutes role={'user'} route={'/login'}/>}> 
 
-
-            
-            </Route> */}
-
-            <Route path="/login" element={<UserLoginPage/>}/>
-            <Route path="/signup" element={<UserSignupPage/>}/>
-            <Route path="/verifyMail" element={<EmailVerifyPage />} />
-            <Route path="/" element={<HomePage />}/>
-            <Route path="/resorts" element={<UserResortPage />}/>
-            <Route path="/viewResorts" element={<ResortViewPage />}/>
             <Route path="/userPackages/:id" element={<UserPackagePage />}/>
             <Route path="/userBooking" element={<UserBookingPage />}/>
             <Route path="/booking" element={<BookingPage />}/>
@@ -44,6 +35,17 @@ function UserRouter(){
             <Route path="/successCash" element={<CashSuccessPage/>}/>
             <Route path="/profile" element={<UserProfilePage />}/>
             <Route path="/chat" element={<UserChatPage />}/>
+
+            
+            </Route>
+
+            <Route path="/login" element={<UserLoginPage/>}/>
+            <Route path="/signup" element={<UserSignupPage/>}/>
+            <Route path="/verifyMail" element={<EmailVerifyPage />} />
+            <Route path="/" element={<HomePage />}/>
+            <Route path="/resorts" element={<UserResortPage />}/>
+            <Route path="/viewResorts" element={<ResortViewPage />}/>
+           
         </Routes>
     )
 }

@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import resort1 from "./assets/resort1.jpg";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { authUser } from "../../Services/userApi";
 import { setUserDetails } from "../../redux/Features/userSlice";
+import { AiOutlineArrowLeft } from 'react-icons/ai'
 
 function UserLogin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -82,6 +83,7 @@ function UserLogin() {
     <>
       <section className="bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
+        <span className='self-start'> <Link to={'/'}> <AiOutlineArrowLeft size={22} /></Link></span>
           <div className="md:w-1/2 px-16">
             <h2 className="font-bold text-3xl text-[#002D74]">Login</h2>
             <p className="text-sm mt-4 text-[#002D74]">Welcome Back!</p>

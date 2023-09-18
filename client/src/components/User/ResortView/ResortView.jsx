@@ -40,7 +40,7 @@ function ResortView() {
 
     const fetchBookedDates = async () => {
       try {
-        const { data } = await getBookedDates(resort); // Replace with your API call
+        const { data } = await getBookedDates(resort); 
         if (data.success) {
           
           const formattedBookedDates = data.bookedDates.map((booking) => {
@@ -94,6 +94,10 @@ function ResortView() {
   async function handleSubmit() {
 
     const { data } = await ResortAvailability(fromDate, toDate, resort);
+
+    if(!data.status){
+      return navigate('/login')
+    }
 
     if (!data.success) {
       toast.error(data.message, {
