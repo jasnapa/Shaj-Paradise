@@ -8,8 +8,8 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 function App(){
-  // axios.defaults.baseURL ='https://shajparadise.comicworld.store' ;
-  axios.defaults.baseURL ='http://localhost:3000' ;
+  axios.defaults.baseURL ='https://shajparadise.comicworld.store' ;
+  // axios.defaults.baseURL ='http://localhost:3000' ;
   axios.defaults.withCredentials = true;
   return(
     <BrowserRouter>
