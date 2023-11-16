@@ -2,8 +2,8 @@ import axios from 'axios' ;
 
 const axiosInstance = (tokenName)=> {
   const instance = axios.create({
-    // baseURL:'https://shajparadise.comicworld.store' ,
-    baseURL:'http://localhost:3000' ,
+    baseURL:'https://shajparadise.comicworld.store' ,
+    // baseURL:'http://localhost:3000' ,
     timeout : 20000 ,
     headers :{
       'Content-Type' : 'application/json'
